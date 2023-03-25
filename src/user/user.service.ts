@@ -71,4 +71,8 @@ export class UserService {
     }
     return null;
   }
+
+  async findByEmail(email: string) {
+    return this.knex('users').where({ email }).first();
+  }
 }
