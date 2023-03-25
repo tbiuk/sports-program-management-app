@@ -9,15 +9,19 @@ import { InjectKnex } from 'nestjs-knex';
 export class UserService {
   constructor(@InjectKnex() private readonly knex: Knex) {}
 
-  async createUser(email: string, password: string, age: string): Promise<any> {
+  async createUser(
+    email: string,
+    password: string,
+    ageGroupID: number,
+  ): Promise<any> {
     const hashedPassword = await bcrypt.hash(password, 10);
     const emailVerificationToken = crypto.randomBytes(32).toString('hex');
 
     await this.knex('users').insert({
       email,
       password: hashedPassword,
-      emailVerificationToken,
-      age,
+      email_verification_token: emailVerificationToken,
+      age_group_id: ageGroupID,
     });
 
     return emailVerificationToken;
@@ -45,13 +49,13 @@ export class UserService {
 
   async verifyEmailToken(token: string): Promise<any> {
     const user = await this.knex('users')
-      .where({ emailVerificationToken: token })
+      .where({ email_verification_token: token })
       .first();
 
     if (user) {
-      await this.knex('users').where({ id: user.id }).update({
+      await this.knex('users').where({ user_id: user.user_id }).update({
         verified: true,
-        emailVerificationToken: '',
+        email_verification_token: null,
       });
     }
 

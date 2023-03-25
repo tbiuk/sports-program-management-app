@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get, Query } from '@nestjs/common';
+import { Controller, Post, Body, Get, Query, Param } from '@nestjs/common';
 import { UserService } from './user.service';
 
 @Controller('user')
@@ -9,12 +9,12 @@ export class UserController {
   async register(
     @Body('email') email: string,
     @Body('password') password: string,
-    @Body('age') age: string,
+    @Body('ageGroupID') ageGroupID: number,
   ) {
     const emailVerificationToken = await this.userService.createUser(
       email,
       password,
-      age,
+      ageGroupID,
     );
     this.userService.sendVerificationEmail(email, emailVerificationToken);
 
