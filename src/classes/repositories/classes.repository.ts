@@ -22,6 +22,20 @@ export class ClassesRepository {
     return this.getAllClasses().where('class_id', id).first();
   }
 
+  getFilteredClasses(sportNamesArray: string[], ageNamesArray: string[]) {
+    let query = this.getAllClasses();
+
+    if (sportNamesArray.length) {
+      query = query.whereIn('SPR.name', sportNamesArray);
+    }
+
+    if (ageNamesArray.length) {
+      query = query.whereIn('AGG.name', ageNamesArray);
+    }
+
+    return query;
+  }
+
   createClass(
     sportID: number,
     ageGroupID: number,

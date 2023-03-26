@@ -5,8 +5,14 @@ import { ClassesRepository } from './repositories/classes.repository';
 export class ClassesService {
   constructor(private readonly classesRepository: ClassesRepository) {}
 
-  getAllClasses() {
-    return this.classesRepository.getAllClasses();
+  getFilteredClasses(sportNames: string, ageNames: string) {
+    const sportNamesArray = sportNames ? sportNames.split(',') : [];
+    const ageNamesArray = ageNames ? ageNames.split(',') : [];
+
+    return this.classesRepository.getFilteredClasses(
+      sportNamesArray,
+      ageNamesArray,
+    );
   }
 
   getClassById(id: number) {

@@ -6,6 +6,7 @@ import {
   Delete,
   Param,
   Body,
+  Query,
 } from '@nestjs/common';
 import { ClassesService } from './classes.service';
 
@@ -14,8 +15,11 @@ export class ClassesController {
   constructor(private readonly classesService: ClassesService) {}
 
   @Get()
-  getAllClasses() {
-    return this.classesService.getAllClasses();
+  getFilteredClasses(
+    @Query('sports') sportsList: string,
+    @Query('age') ageList: string,
+  ) {
+    return this.classesService.getFilteredClasses(sportsList, ageList);
   }
 
   @Get(':id')
