@@ -8,6 +8,7 @@ import { ConfigModule } from '@nestjs/config';
 import { SportsModule } from './sports/sports.module';
 import { ClassesModule } from './classes/classes.module';
 import { EnrollmentsModule } from './enrollments/enrollments.module';
+import { CommentsModule } from './comments/comments.module';
 const knexConfig = require('../knexfile');
 
 @Module({
@@ -21,6 +22,7 @@ const knexConfig = require('../knexfile');
     SportsModule,
     ClassesModule,
     EnrollmentsModule,
+    CommentsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
