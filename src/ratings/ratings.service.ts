@@ -13,6 +13,37 @@ export class RatingsService {
     return this.ratingsRepository.getRatingById(id);
   }
 
+  private calcAverageRating(ratings) {
+    const sum = ratings.reduce((acc, curr) => {
+      return acc + curr;
+    }, 0);
+
+    const average = Math.round((sum / ratings.length) * 100) / 100;
+    return average;
+  }
+
+  async getRatingForSport(sportName: string) {
+    const ratings = (
+      await this.ratingsRepository.getRatingsForSportByName(sportName)
+    ).map((el) => el.rating);
+
+    return {
+      ratings,
+      averageRating: this.calcAverageRating(ratings),
+    };
+  }
+
+  async getRatingForClass(classID: number) {
+    const ratings = (
+      await this.ratingsRepository.getRatingsForClassByID(classID)
+    ).map((el) => el.rating);
+
+    return {
+      ratings,
+      averageRating: this.calcAverageRating(ratings),
+    };
+  }
+
   createRating(classID: number, userID: number, rating: number) {
     return this.ratingsRepository.createRating(classID, userID, rating);
   }

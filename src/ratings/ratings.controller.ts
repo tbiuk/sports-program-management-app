@@ -6,6 +6,8 @@ import {
   Delete,
   Param,
   Body,
+  Query,
+  BadRequestException,
 } from '@nestjs/common';
 import { RatingsService } from './ratings.service';
 
@@ -14,8 +16,19 @@ export class RatingsController {
   constructor(private readonly ratingsService: RatingsService) {}
 
   @Get()
-  getAllRatings() {
-    return this.ratingsService.getAllRatings();
+  getRatings(
+    @Query('sport') sportName: string,
+    @Query('class') classID: number,
+  ) {
+    if (sportName && classID) {
+      throw new BadRequestException(
+        'Please provide either a sport or a class, not both.',
+      );
+    }
+
+    if (sportName) return this.ratingsService.getRatingForSport(sportName);
+    if (classID) return this.ratingsService.getRatingForClass(classID);
+    if (!sportName && !classID) return this.ratingsService.getAllRatings();
   }
 
   @Get(':id')

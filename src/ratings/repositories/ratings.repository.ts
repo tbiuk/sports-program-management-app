@@ -26,6 +26,14 @@ export class RatingsRepository {
     return this.getAllRatings().where('rating_id', id).first();
   }
 
+  getRatingsForClassByID(id: number) {
+    return this.getAllRatings().where('CLS.class_id', id);
+  }
+
+  getRatingsForSportByName(sportName: string) {
+    return this.getAllRatings().where('SPR.name', sportName);
+  }
+
   createRating(classID: number, userID: number, rating: number) {
     return this.knex('ratings').insert({
       class_id: classID,
