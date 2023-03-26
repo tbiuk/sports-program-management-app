@@ -3,22 +3,26 @@ import { InjectKnex, Knex } from 'nestjs-knex';
 export class SportsRepository {
   constructor(@InjectKnex() private readonly knex: Knex) {}
 
-  async getAllSports() {
-    return this.knex('sports');
+  getAllSports() {
+    return this.knex('sports').select(
+      'sport_id as sportID',
+      'name',
+      'description',
+    );
   }
 
-  async getSportById(id: number) {
-    return this.knex('sports').where('sport_id', id).first();
+  getSportById(id: number) {
+    return this.getAllSports().where('sport_id', id).first();
   }
 
-  async createSport(name: string, description: string) {
+  createSport(name: string, description: string) {
     return this.knex('sports').insert({
       name,
       description,
     });
   }
 
-  async updateSport(id: number, name: string, description: string) {
+  updateSport(id: number, name: string, description: string) {
     return this.knex('sports')
       .update({
         name,
@@ -27,7 +31,7 @@ export class SportsRepository {
       .where('sport_id', id);
   }
 
-  async deleteSport(id: number) {
+  deleteSport(id: number) {
     return this.knex('sports').where('sport_id', id).delete();
   }
 }
