@@ -1,13 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { Knex } from 'knex';
 import * as bcrypt from 'bcrypt';
 import * as crypto from 'crypto';
 import * as nodemailer from 'nodemailer';
-import { InjectKnex } from 'nestjs-knex';
+import { UserRepository } from './repositories/user.repository';
 
 @Injectable()
 export class UserService {
-  constructor(@InjectKnex() private readonly knex: Knex) {}
+  constructor(private readonly userRepository: UserRepository) {}
 
   async createUser(
     email: string,
@@ -17,12 +16,12 @@ export class UserService {
     const hashedPassword = await bcrypt.hash(password, 10);
     const emailVerificationToken = crypto.randomBytes(32).toString('hex');
 
-    await this.knex('users').insert({
+    await this.userRepository.addUser(
       email,
-      password: hashedPassword,
-      email_verification_token: emailVerificationToken,
-      age_group_id: ageGroupID,
-    });
+      hashedPassword,
+      emailVerificationToken,
+      ageGroupID,
+    );
 
     return emailVerificationToken;
   }
@@ -48,22 +47,17 @@ export class UserService {
   }
 
   async verifyEmailToken(token: string): Promise<any> {
-    const user = await this.knex('users')
-      .where({ email_verification_token: token })
-      .first();
+    const user = await this.userRepository.findByVerificationToken(token);
 
     if (user) {
-      await this.knex('users').where({ user_id: user.user_id }).update({
-        verified: true,
-        email_verification_token: null,
-      });
+      await this.userRepository.verify(user.user_id);
     }
 
     return user;
   }
 
   async validateUser(email: string, password: string): Promise<any> {
-    const user = await this.knex('users').where({ email }).first();
+    const user = await this.userRepository.findByEmail(email);
 
     if (user && (await bcrypt.compare(password, user.password))) {
       const { password, ...result } = user;
@@ -73,6 +67,6 @@ export class UserService {
   }
 
   async findByEmail(email: string) {
-    return this.knex('users').where({ email }).first();
+    return this.userRepository.findByEmail(email);
   }
 }
