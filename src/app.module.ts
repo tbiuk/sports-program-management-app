@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { KnexModule } from 'nestjs-knex';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { UserModule } from './user/user.module';
+import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 const knexConfig = require('../knexfile');
@@ -13,7 +13,7 @@ const knexConfig = require('../knexfile');
       isGlobal: true,
     }),
     KnexModule.forRoot(knexConfig),
-    UserModule,
+    UsersModule,
     AuthModule,
   ],
   controllers: [AppController],

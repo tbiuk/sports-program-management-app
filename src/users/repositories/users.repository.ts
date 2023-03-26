@@ -1,6 +1,6 @@
 import { InjectKnex, Knex } from 'nestjs-knex';
 
-export class UserRepository {
+export class UsersRepository {
   constructor(@InjectKnex() private readonly knex: Knex) {}
 
   async addUser(
