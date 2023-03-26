@@ -79,7 +79,7 @@ exports.up = function (knex) {
       table.unique(['class_id', 'user_id']);
     })
     .createTable('comments', function (table) {
-      table.increments('rating_id').primary();
+      table.increments('comment_id').primary();
       table
         .integer('class_id')
         .unsigned()
