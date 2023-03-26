@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
+import { SportsModule } from './sports/sports.module';
 const knexConfig = require('../knexfile');
 
 @Module({
@@ -15,6 +16,7 @@ const knexConfig = require('../knexfile');
     KnexModule.forRoot(knexConfig),
     UsersModule,
     AuthModule,
+    SportsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
