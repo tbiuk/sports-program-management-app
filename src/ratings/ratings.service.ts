@@ -1,9 +1,13 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
+import { EnrollmentsService } from 'src/enrollments/enrollments.service';
 import { RatingsRepository } from './repositories/ratings.repository';
 
 @Injectable()
 export class RatingsService {
-  constructor(private readonly ratingsRepository: RatingsRepository) {}
+  constructor(
+    private readonly ratingsRepository: RatingsRepository,
+    private readonly enrollmentsService: EnrollmentsService,
+  ) {}
 
   getAllRatings() {
     return this.ratingsRepository.getAllRatings();
@@ -44,7 +48,21 @@ export class RatingsService {
     };
   }
 
-  upsertRating(classID: number, userID: number, rating: number) {
+  private userBelongsToClass(userID: number, classID: number) {
+    const res = this.enrollmentsService.getEnrollmentByUserAndClassID(
+      classID,
+      userID,
+    );
+    return res;
+  }
+
+  async upsertRating(classID: number, userID: number, rating: number) {
+    if (!(await this.userBelongsToClass(userID, classID))) {
+      throw new ForbiddenException(
+        'User does not belong to the specified class',
+      );
+    }
+
     return this.ratingsRepository.upsertRating(classID, userID, rating);
   }
 

@@ -21,7 +21,6 @@ import { ValidQueryParamsInterceptor } from 'src/common/interceptors/valid-query
 import { ValidBodyParamsInterceptor } from 'src/common/interceptors/valid-body-params.interceptor';
 import { RatingExistsPipe } from './pipes/rating-exists.pipe';
 import { ClassExistsPipe } from 'src/classes/pipes/class-exists.pipe';
-import { UserBelongsToClassInterceptor } from './interceptors/user-belongs-to-class.interceptor';
 
 @Controller('ratings')
 export class RatingsController {
@@ -52,7 +51,6 @@ export class RatingsController {
   @Put()
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(new ValidBodyParamsInterceptor(['class', 'rating']))
-  @UseInterceptors(UserBelongsToClassInterceptor)
   createRating(
     @Request() req,
     @Body('class', ClassExistsPipe) classID: number,
