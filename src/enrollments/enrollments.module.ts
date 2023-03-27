@@ -6,5 +6,6 @@ import { EnrollmentsRepository } from './repositories/enrollments.repository';
 @Module({
   providers: [EnrollmentsService, EnrollmentsRepository],
   controllers: [EnrollmentsController],
+  exports: [EnrollmentsService, EnrollmentsRepository],
 })
 export class EnrollmentsModule {}

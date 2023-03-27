@@ -44,4 +44,11 @@ export class EnrollmentsRepository {
   deleteEnrollment(id: number) {
     return this.knex('enrollments').where('enrollment_id', id).delete();
   }
+
+  getEnrollmentByUserAndClassID(userID: number, classID: number) {
+    return this.getAllEnrollments()
+      .where('USR.user_id', userID)
+      .andWhere('CLS.class_id', classID)
+      .first();
+  }
 }

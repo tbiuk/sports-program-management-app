@@ -24,4 +24,11 @@ export class EnrollmentsService {
   deleteEnrollment(id: number) {
     return this.enrollmentsRepository.deleteEnrollment(id);
   }
+
+  getEnrollmentByUserAndClassID(userID: number, classID: number) {
+    return this.enrollmentsRepository.getEnrollmentByUserAndClassID(
+      userID,
+      classID,
+    );
+  }
 }

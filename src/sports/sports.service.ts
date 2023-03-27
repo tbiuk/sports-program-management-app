@@ -24,4 +24,8 @@ export class SportsService {
   deleteSport(id: number) {
     return this.SportsRepository.deleteSport(id);
   }
+
+  getSportByName(sportName: string) {
+    return this.SportsRepository.getSportByName(sportName);
+  }
 }

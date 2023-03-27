@@ -15,6 +15,10 @@ export class SportsRepository {
     return this.getAllSports().where('sport_id', id).first();
   }
 
+  getSportByName(sportName: string) {
+    return this.getAllSports().where('name', sportName).first();
+  }
+
   createSport(name: string, description: string) {
     return this.knex('sports').insert({
       name,

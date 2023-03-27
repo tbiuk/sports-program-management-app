@@ -44,12 +44,8 @@ export class RatingsService {
     };
   }
 
-  createRating(classID: number, userID: number, rating: number) {
-    return this.ratingsRepository.createRating(classID, userID, rating);
-  }
-
-  updateRating(id: number, updatedRating: any) {
-    return this.ratingsRepository.updateRating(id, updatedRating);
+  upsertRating(classID: number, userID: number, rating: number) {
+    return this.ratingsRepository.upsertRating(classID, userID, rating);
   }
 
   deleteRating(id: number) {

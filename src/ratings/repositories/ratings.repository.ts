@@ -34,16 +34,25 @@ export class RatingsRepository {
     return this.getAllRatings().where('SPR.name', sportName);
   }
 
-  createRating(classID: number, userID: number, rating: number) {
-    return this.knex('ratings').insert({
-      class_id: classID,
-      user_id: userID,
-      rating,
-    });
-  }
+  async upsertRating(classID: number, userID: number, rating: number) {
+    const [existingRating] = await this.knex('ratings')
+      .where('user_id', userID)
+      .andWhere('class_id', classID);
 
-  updateRating(id: number, rating: number) {
-    return this.knex('ratings').update({ rating }).where('rating_id', id);
+    if (!existingRating)
+      return this.knex('ratings').insert({
+        class_id: classID,
+        user_id: userID,
+        rating,
+      });
+
+    return this.knex('ratings')
+      .update({
+        class_id: classID,
+        user_id: userID,
+        rating,
+      })
+      .where('rating_id', existingRating.rating_id);
   }
 
   deleteRating(id: number) {
