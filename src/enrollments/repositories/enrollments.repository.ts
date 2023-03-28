@@ -24,8 +24,14 @@ export class EnrollmentsRepository {
       .join('age_groups as AGG', 'AGG.age_group_id', 'CLS.age_group_id');
   }
 
-  getEnrollmentById(id: number) {
-    return this.getAllEnrollments().where('enrollment_id', id).first();
+  getEnrollmentById(enrollmentID: number) {
+    return this.getAllEnrollments()
+      .where('enrollment_id', enrollmentID)
+      .first();
+  }
+
+  getEnrollmentsByUserId(userID: number) {
+    return this.getAllEnrollments().where('USR.user_id', userID);
   }
 
   createEnrollment(userID: number, classID: number) {
@@ -35,14 +41,17 @@ export class EnrollmentsRepository {
     });
   }
 
-  updateEnrollment(id: number, userID: number, classID: number) {
+  deleteEnrollmentByID(enrollmentID: number) {
     return this.knex('enrollments')
-      .update({ user_id: userID, class_id: classID })
-      .where('enrollment_id', id);
+      .where('enrollment_id', enrollmentID)
+      .delete();
   }
 
-  deleteEnrollment(id: number) {
-    return this.knex('enrollments').where('enrollment_id', id).delete();
+  deleteEnrollmentByUserAndClassID(userID: number, classID: number) {
+    return this.knex('enrollments')
+      .where('user_id', userID)
+      .andWhere('class_id', classID)
+      .delete();
   }
 
   getEnrollmentByUserAndClassID(userID: number, classID: number) {
