@@ -20,7 +20,7 @@ exports.up = function (knex) {
     })
     .createTable('sports', function (table) {
       table.increments('sport_id').primary();
-      table.string('name').notNullable();
+      table.string('name').unique().notNullable();
       table.string('description').nullable();
     })
     .createTable('classes', function (table) {

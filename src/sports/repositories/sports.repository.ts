@@ -11,31 +11,34 @@ export class SportsRepository {
     );
   }
 
-  getSportById(id: number) {
-    return this.getAllSports().where('sport_id', id).first();
+  getSportById(sportID: number) {
+    return this.getAllSports().where('sport_id', sportID).first();
   }
 
   getSportByName(sportName: string) {
     return this.getAllSports().where('name', sportName).first();
   }
 
-  createSport(name: string, description: string) {
+  createSport(sportName: string, sportDescription: string) {
     return this.knex('sports').insert({
-      name,
-      description,
+      name: sportName,
+      description: sportDescription,
     });
   }
 
-  updateSport(id: number, name: string, description: string) {
-    return this.knex('sports')
-      .update({
-        name,
-        description,
-      })
-      .where('sport_id', id);
+  updateSport(sportID: number, sportName: string, sportDescription: string) {
+    let query = this.knex('sports').where('sport_id', sportID);
+
+    if (typeof sportName !== 'undefined')
+      query = query.update('name', sportName);
+
+    if (typeof sportDescription !== 'undefined')
+      query = query.update('description', sportDescription);
+
+    return query;
   }
 
-  deleteSport(id: number) {
-    return this.knex('sports').where('sport_id', id).delete();
+  deleteSport(sportID: number) {
+    return this.knex('sports').where('sport_id', sportID).delete();
   }
 }
