@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { EnrollmentsService } from 'src/enrollments/enrollments.service';
 import { RatingsRepository } from './repositories/ratings.repository';
 
@@ -58,7 +58,7 @@ export class RatingsService {
 
   async upsertRating(classID: number, userID: number, rating: number) {
     if (!(await this.userBelongsToClass(userID, classID))) {
-      throw new ForbiddenException(
+      throw new BadRequestException(
         'User does not belong to the specified class',
       );
     }
