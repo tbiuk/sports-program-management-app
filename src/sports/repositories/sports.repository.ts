@@ -5,14 +5,14 @@ export class SportsRepository {
 
   getAllSports() {
     return this.knex('sports').select(
-      'sport_id as sportID',
+      'sport_id as sportId',
       'name',
       'description',
     );
   }
 
-  getSportById(sportID: number) {
-    return this.getAllSports().where('sport_id', sportID).first();
+  getSportById(sportId: number) {
+    return this.getAllSports().where('sport_id', sportId).first();
   }
 
   getSportByName(sportName: string) {
@@ -26,8 +26,8 @@ export class SportsRepository {
     });
   }
 
-  updateSport(sportID: number, sportName: string, sportDescription: string) {
-    let query = this.knex('sports').where('sport_id', sportID);
+  updateSport(sportId: number, sportName: string, sportDescription: string) {
+    let query = this.knex('sports').where('sport_id', sportId);
 
     if (typeof sportName !== 'undefined')
       query = query.update('name', sportName);
@@ -38,7 +38,7 @@ export class SportsRepository {
     return query;
   }
 
-  deleteSport(sportID: number) {
-    return this.knex('sports').where('sport_id', sportID).delete();
+  deleteSport(sportId: number) {
+    return this.knex('sports').where('sport_id', sportId).delete();
   }
 }

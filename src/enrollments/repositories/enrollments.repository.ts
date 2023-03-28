@@ -6,11 +6,11 @@ export class EnrollmentsRepository {
   getAllEnrollments() {
     return this.knex('enrollments as ENR')
       .select(
-        'USR.user_id as userID',
-        'AGG.age_group_id as ageGroupID',
-        'SPR.sport_id as sportID',
-        'CLS.class_id as classID',
-        'USR.user_id as userID',
+        'USR.user_id as userId',
+        'AGG.age_group_id as ageGroupId',
+        'SPR.sport_id as sportId',
+        'CLS.class_id as classId',
+        'USR.user_id as userId',
         'USR.email as userEmail',
         'AGG.name as ageGroup',
         'CLS.duration as classDuration',
@@ -24,40 +24,40 @@ export class EnrollmentsRepository {
       .join('age_groups as AGG', 'AGG.age_group_id', 'CLS.age_group_id');
   }
 
-  getEnrollmentById(enrollmentID: number) {
+  getEnrollmentById(enrollmentId: number) {
     return this.getAllEnrollments()
-      .where('enrollment_id', enrollmentID)
+      .where('enrollment_id', enrollmentId)
       .first();
   }
 
-  getEnrollmentsByUserId(userID: number) {
-    return this.getAllEnrollments().where('USR.user_id', userID);
+  getEnrollmentsByUserId(userId: number) {
+    return this.getAllEnrollments().where('USR.user_id', userId);
   }
 
-  createEnrollment(userID: number, classID: number) {
+  createEnrollment(userId: number, classId: number) {
     return this.knex('enrollments').insert({
-      user_id: userID,
-      class_id: classID,
+      user_id: userId,
+      class_id: classId,
     });
   }
 
-  deleteEnrollmentByID(enrollmentID: number) {
+  deleteEnrollmentById(enrollmentId: number) {
     return this.knex('enrollments')
-      .where('enrollment_id', enrollmentID)
+      .where('enrollment_id', enrollmentId)
       .delete();
   }
 
-  deleteEnrollmentByUserAndClassID(userID: number, classID: number) {
+  deleteEnrollmentByUserAndClassId(userId: number, classId: number) {
     return this.knex('enrollments')
-      .where('user_id', userID)
-      .andWhere('class_id', classID)
+      .where('user_id', userId)
+      .andWhere('class_id', classId)
       .delete();
   }
 
-  getEnrollmentByUserAndClassID(userID: number, classID: number) {
+  getEnrollmentByUserAndClassId(userId: number, classId: number) {
     return this.getAllEnrollments()
-      .where('USR.user_id', userID)
-      .andWhere('CLS.class_id', classID)
+      .where('USR.user_id', userId)
+      .andWhere('CLS.class_id', classId)
       .first();
   }
 }

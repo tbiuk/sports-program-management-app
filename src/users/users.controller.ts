@@ -9,12 +9,12 @@ export class UsersController {
   async register(
     @Body('email') email: string,
     @Body('password') password: string,
-    @Body('ageGroupID') ageGroupID: number,
+    @Body('ageGroupId') ageGroupId: number,
   ) {
     const emailVerificationToken = await this.UsersService.createUser(
       email,
       password,
-      ageGroupID,
+      ageGroupId,
     );
     this.UsersService.sendVerificationEmail(email, emailVerificationToken);
 

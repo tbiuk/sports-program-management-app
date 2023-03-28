@@ -31,8 +31,8 @@ export class SportsController {
   @Get(':id')
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(new ValidQueryParamsInterceptor([]))
-  getSportById(@Param('id', SportExistsPipe) sportID: number) {
-    return this.SportsService.getSportById(sportID);
+  getSportById(@Param('id', SportExistsPipe) sportId: number) {
+    return this.SportsService.getSportById(sportId);
   }
 
   @Post()
@@ -49,17 +49,17 @@ export class SportsController {
   @UseGuards(AdminGuard)
   @UseInterceptors(new ValidBodyParamsInterceptor(['name', 'description']))
   updateSport(
-    @Param('id', SportExistsPipe) sportID: number,
+    @Param('id', SportExistsPipe) sportId: number,
     @Body('name') sportName: string,
     @Body('description') sportDescription: string,
   ) {
-    return this.SportsService.updateSport(sportID, sportName, sportDescription);
+    return this.SportsService.updateSport(sportId, sportName, sportDescription);
   }
 
   @Delete(':id')
   @UseGuards(AdminGuard)
   @UseInterceptors(new ValidQueryParamsInterceptor([]))
-  deleteSport(@Param('id', SportExistsPipe) sportID: number) {
-    return this.SportsService.deleteSport(sportID);
+  deleteSport(@Param('id', SportExistsPipe) sportId: number) {
+    return this.SportsService.deleteSport(sportId);
   }
 }

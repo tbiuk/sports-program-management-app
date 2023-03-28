@@ -19,26 +19,29 @@ export class CommentsController {
   }
 
   @Get(':id')
-  getCommentById(@Param('id') id: number) {
-    return this.commentsService.getCommentById(id);
+  getCommentById(@Param('id') commentId: number) {
+    return this.commentsService.getCommentById(commentId);
   }
 
   @Post()
   createComment(
-    @Body('classID') classID: number,
-    @Body('userID') userID: number,
+    @Body('classId') classId: number,
+    @Body('userId') userId: number,
     @Body('comment') comment: string,
   ) {
-    return this.commentsService.createComment(classID, userID, comment);
+    return this.commentsService.createComment(classId, userId, comment);
   }
 
   @Put(':id')
-  updateComment(@Param('id') id: number, @Body('comment') comment: string) {
-    return this.commentsService.updateComment(id, comment);
+  updateComment(
+    @Param('id') commentId: number,
+    @Body('comment') comment: string,
+  ) {
+    return this.commentsService.updateComment(commentId, comment);
   }
 
   @Delete(':id')
-  deleteComment(@Param('id') id: number) {
-    return this.commentsService.deleteComment(id);
+  deleteComment(@Param('id') commentId: number) {
+    return this.commentsService.deleteComment(commentId);
   }
 }

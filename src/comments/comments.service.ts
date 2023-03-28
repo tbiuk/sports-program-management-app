@@ -9,19 +9,19 @@ export class CommentsService {
     return this.commentsRepository.getAllComments();
   }
 
-  getCommentById(id: number) {
-    return this.commentsRepository.getCommentById(id);
+  getCommentById(commentId: number) {
+    return this.commentsRepository.getCommentById(commentId);
   }
 
-  createComment(classID: number, userID: number, comment: string) {
-    return this.commentsRepository.createComment(classID, userID, comment);
+  createComment(classId: number, userId: number, comment: string) {
+    return this.commentsRepository.createComment(classId, userId, comment);
   }
 
-  updateComment(id: number, updatedComment: any) {
-    return this.commentsRepository.updateComment(id, updatedComment);
+  updateComment(commentId: number, updatedComment: any) {
+    return this.commentsRepository.updateComment(commentId, updatedComment);
   }
 
-  deleteComment(id: number) {
-    return this.commentsRepository.deleteComment(id);
+  deleteComment(commentId: number) {
+    return this.commentsRepository.deleteComment(commentId);
   }
 }

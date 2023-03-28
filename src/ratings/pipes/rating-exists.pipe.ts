@@ -8,7 +8,7 @@ export class RatingExistsPipe implements PipeTransform {
   async transform(value: number) {
     const rating = await this.ratingsRepository.getRatingById(value);
     if (!rating) {
-      throw new BadRequestException(`Rating with ID ${value} does not exist`);
+      throw new BadRequestException(`Rating with id ${value} does not exist`);
     }
     return value;
   }

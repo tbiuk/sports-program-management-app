@@ -11,7 +11,7 @@ export class UsersService {
   async createUser(
     email: string,
     password: string,
-    ageGroupID: number,
+    ageGroupId: number,
   ): Promise<any> {
     const hashedPassword = await bcrypt.hash(password, 10);
     const emailVerificationToken = crypto.randomBytes(32).toString('hex');
@@ -20,7 +20,7 @@ export class UsersService {
       email,
       hashedPassword,
       emailVerificationToken,
-      ageGroupID,
+      ageGroupId,
     );
 
     return emailVerificationToken;

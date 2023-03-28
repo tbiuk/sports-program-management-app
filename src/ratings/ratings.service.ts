@@ -13,8 +13,8 @@ export class RatingsService {
     return this.ratingsRepository.getAllRatings();
   }
 
-  getRatingById(id: number) {
-    return this.ratingsRepository.getRatingById(id);
+  getRatingById(ratingId: number) {
+    return this.ratingsRepository.getRatingById(ratingId);
   }
 
   private calcAverageRating(ratings) {
@@ -37,9 +37,9 @@ export class RatingsService {
     };
   }
 
-  async getRatingForClass(classID: number) {
+  async getRatingForClass(classId: number) {
     const ratings = (
-      await this.ratingsRepository.getRatingsForClassByID(classID)
+      await this.ratingsRepository.getRatingsForClassById(classId)
     ).map((el) => el.rating);
 
     return {
@@ -48,25 +48,25 @@ export class RatingsService {
     };
   }
 
-  private userBelongsToClass(userID: number, classID: number) {
-    const res = this.enrollmentsService.getEnrollmentByUserAndClassID(
-      classID,
-      userID,
+  private userBelongsToClass(userId: number, classId: number) {
+    const res = this.enrollmentsService.getEnrollmentByUserAndClassId(
+      classId,
+      userId,
     );
     return res;
   }
 
-  async upsertRating(classID: number, userID: number, rating: number) {
-    if (!(await this.userBelongsToClass(userID, classID))) {
+  async upsertRating(classId: number, userId: number, rating: number) {
+    if (!(await this.userBelongsToClass(userId, classId))) {
       throw new BadRequestException(
         'User does not belong to the specified class',
       );
     }
 
-    return this.ratingsRepository.upsertRating(classID, userID, rating);
+    return this.ratingsRepository.upsertRating(classId, userId, rating);
   }
 
-  deleteRating(id: number) {
-    return this.ratingsRepository.deleteRating(id);
+  deleteRating(ratingId: number) {
+    return this.ratingsRepository.deleteRating(ratingId);
   }
 }

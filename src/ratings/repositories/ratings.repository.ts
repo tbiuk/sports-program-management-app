@@ -6,11 +6,11 @@ export class RatingsRepository {
   getAllRatings() {
     return this.knex('ratings as RAT')
       .select(
-        'RAT.rating_id as ratingID',
+        'RAT.rating_id as ratingId',
         'RAT.rating',
-        'AGG.age_group_id as ageGroupID',
-        'SPR.sport_id as sportID',
-        'CLS.class_id as classID',
+        'AGG.age_group_id as ageGroupId',
+        'SPR.sport_id as sportId',
+        'CLS.class_id as classId',
         'AGG.name as ageGroup',
         'CLS.duration as classDuration',
         'CLS.schedule as classSchedule',
@@ -22,40 +22,40 @@ export class RatingsRepository {
       .join('age_groups as AGG', 'AGG.age_group_id', 'CLS.age_group_id');
   }
 
-  getRatingById(id: number) {
-    return this.getAllRatings().where('rating_id', id).first();
+  getRatingById(ratingId: number) {
+    return this.getAllRatings().where('rating_id', ratingId).first();
   }
 
-  getRatingsForClassByID(id: number) {
-    return this.getAllRatings().where('CLS.class_id', id);
+  getRatingsForClassById(ratingId: number) {
+    return this.getAllRatings().where('CLS.class_id', ratingId);
   }
 
   getRatingsForSportByName(sportName: string) {
     return this.getAllRatings().where('SPR.name', sportName);
   }
 
-  async upsertRating(classID: number, userID: number, rating: number) {
+  async upsertRating(classId: number, userId: number, rating: number) {
     const [existingRating] = await this.knex('ratings')
-      .where('user_id', userID)
-      .andWhere('class_id', classID);
+      .where('user_id', userId)
+      .andWhere('class_id', classId);
 
     if (!existingRating)
       return this.knex('ratings').insert({
-        class_id: classID,
-        user_id: userID,
+        class_id: classId,
+        user_id: userId,
         rating,
       });
 
     return this.knex('ratings')
       .update({
-        class_id: classID,
-        user_id: userID,
+        class_id: classId,
+        user_id: userId,
         rating,
       })
       .where('rating_id', existingRating.rating_id);
   }
 
-  deleteRating(id: number) {
-    return this.knex('ratings').where('rating_id', id).delete();
+  deleteRating(ratingId: number) {
+    return this.knex('ratings').where('rating_id', ratingId).delete();
   }
 }

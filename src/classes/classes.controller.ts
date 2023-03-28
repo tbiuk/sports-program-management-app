@@ -23,20 +23,20 @@ export class ClassesController {
   }
 
   @Get(':id')
-  getClassById(@Param('id') id: number) {
-    return this.classesService.getClassById(id);
+  getClassById(@Param('id') classId: number) {
+    return this.classesService.getClassById(classId);
   }
 
   @Post()
   createClass(
-    @Body('sportID') sportID: number,
-    @Body('ageGroupID') ageGroupID: number,
+    @Body('sportId') sportId: number,
+    @Body('ageGroupId') ageGroupId: number,
     @Body('duration') duration: string,
     @Body('schedule') schedule: string,
   ) {
     return this.classesService.createClass(
-      sportID,
-      ageGroupID,
+      sportId,
+      ageGroupId,
       duration,
       schedule,
     );
@@ -44,23 +44,23 @@ export class ClassesController {
 
   @Put(':id')
   updateClass(
-    @Param('id') id: number,
-    @Body('sportID') sportID: number,
-    @Body('ageGroupID') ageGroupID: number,
+    @Param('id') classId: number,
+    @Body('sportId') sportId: number,
+    @Body('ageGroupId') ageGroupId: number,
     @Body('duration') duration: string,
     @Body('schedule') schedule: string,
   ) {
     return this.classesService.updateClass(
-      id,
-      sportID,
-      ageGroupID,
+      classId,
+      sportId,
+      ageGroupId,
       duration,
       schedule,
     );
   }
 
   @Delete(':id')
-  deleteClass(@Param('id') id: number) {
-    return this.classesService.deleteClass(id);
+  deleteClass(@Param('id') classId: number) {
+    return this.classesService.deleteClass(classId);
   }
 }

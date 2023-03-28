@@ -10,7 +10,7 @@ export class EnrollmentExistsPipe implements PipeTransform {
 
     if (!enrollment) {
       throw new BadRequestException(
-        `Enrollment with ID ${value} does not exist`,
+        `Enrollment with id ${value} does not exist`,
       );
     }
 

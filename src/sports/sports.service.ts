@@ -9,17 +9,17 @@ export class SportsService {
     return this.sportsRepository.getAllSports();
   }
 
-  getSportById(sportID: number) {
-    return this.sportsRepository.getSportById(sportID);
+  getSportById(sportId: number) {
+    return this.sportsRepository.getSportById(sportId);
   }
 
   private async checkNameUnique(
     sportName: string,
-    excludeSportID: number = null,
+    excludeSportId: number = null,
   ) {
     const existingSport = await this.sportsRepository.getSportByName(sportName);
 
-    if (existingSport && existingSport.sportID != excludeSportID) {
+    if (existingSport && existingSport.sportId != excludeSportId) {
       throw new BadRequestException(
         `Sport with name ${sportName} already exists`,
       );
@@ -32,23 +32,23 @@ export class SportsService {
   }
 
   async updateSport(
-    sportID: number,
+    sportId: number,
     sportName: string,
     sportDescription: string,
   ) {
     if (typeof sportName !== 'undefined') {
-      await this.checkNameUnique(sportName, sportID);
+      await this.checkNameUnique(sportName, sportId);
     }
 
     return this.sportsRepository.updateSport(
-      sportID,
+      sportId,
       sportName,
       sportDescription,
     );
   }
 
-  async deleteSport(sportID: number) {
-    return this.sportsRepository.deleteSport(sportID);
+  async deleteSport(sportId: number) {
+    return this.sportsRepository.deleteSport(sportId);
   }
 
   getSportByName(sportName: string) {

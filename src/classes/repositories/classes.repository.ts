@@ -6,8 +6,8 @@ export class ClassesRepository {
   getAllClasses() {
     return this.knex('classes as CLS')
       .select(
-        'SPR.sport_id as sportID',
-        'CLS.class_id as classID',
+        'SPR.sport_id as sportId',
+        'CLS.class_id as classId',
         'AGG.name as ageGroup',
         'CLS.duration as classDuration',
         'CLS.schedule as classSchedule',
@@ -18,8 +18,8 @@ export class ClassesRepository {
       .join('age_groups as AGG', 'AGG.age_group_id', 'CLS.age_group_id');
   }
 
-  getClassById(id: number) {
-    return this.getAllClasses().where('class_id', id).first();
+  getClassById(classId: number) {
+    return this.getAllClasses().where('class_id', classId).first();
   }
 
   getFilteredClasses(sportNamesArray: string[], ageNamesArray: string[]) {
@@ -37,37 +37,37 @@ export class ClassesRepository {
   }
 
   createClass(
-    sportID: number,
-    ageGroupID: number,
+    sportId: number,
+    ageGroupId: number,
     duration: string,
     schedule: string,
   ) {
     return this.knex('classes').insert({
-      sport_id: sportID,
-      age_group_id: ageGroupID,
+      sport_id: sportId,
+      age_group_id: ageGroupId,
       duration,
       schedule,
     });
   }
 
   updateClass(
-    id: number,
-    sportID: number,
-    ageGroupID: number,
+    classId: number,
+    sportId: number,
+    ageGroupId: number,
     duration: string,
     schedule: string,
   ) {
     return this.knex('classes')
       .update({
-        sport_id: sportID,
-        age_group_id: ageGroupID,
+        sport_id: sportId,
+        age_group_id: ageGroupId,
         duration,
         schedule,
       })
-      .where('class_id', id);
+      .where('class_id', classId);
   }
 
-  deleteClass(id: number) {
-    return this.knex('classes').where('class_id', id).delete();
+  deleteClass(classId: number) {
+    return this.knex('classes').where('class_id', classId).delete();
   }
 }

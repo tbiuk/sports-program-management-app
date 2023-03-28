@@ -15,41 +15,41 @@ export class ClassesService {
     );
   }
 
-  getClassById(id: number) {
-    return this.classesRepository.getClassById(id);
+  getClassById(classId: number) {
+    return this.classesRepository.getClassById(classId);
   }
 
   createClass(
-    sportID: number,
-    ageGroupID: number,
+    sportId: number,
+    ageGroupId: number,
     duration: string,
     schedule: string,
   ) {
     return this.classesRepository.createClass(
-      sportID,
-      ageGroupID,
+      sportId,
+      ageGroupId,
       duration,
       schedule,
     );
   }
 
   updateClass(
-    id: number,
-    sportID: number,
-    ageGroupID: number,
+    classId: number,
+    sportId: number,
+    ageGroupId: number,
     duration: string,
     schedule: string,
   ) {
     return this.classesRepository.updateClass(
-      id,
-      sportID,
-      ageGroupID,
+      classId,
+      sportId,
+      ageGroupId,
       duration,
       schedule,
     );
   }
 
-  deleteClass(id: number) {
-    return this.classesRepository.deleteClass(id);
+  deleteClass(classId: number) {
+    return this.classesRepository.deleteClass(classId);
   }
 }

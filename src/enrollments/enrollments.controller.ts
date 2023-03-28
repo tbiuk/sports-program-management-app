@@ -32,15 +32,15 @@ export class EnrollmentsController {
   @Get(':id')
   @UseGuards(AdminGuard)
   @UseInterceptors(new ValidQueryParamsInterceptor([]))
-  getEnrollmentById(@Param('id', EnrollmentExistsPipe) enrollmentID: number) {
-    return this.enrollmentsService.getEnrollmentById(enrollmentID);
+  getEnrollmentById(@Param('id', EnrollmentExistsPipe) enrollmentId: number) {
+    return this.enrollmentsService.getEnrollmentById(enrollmentId);
   }
 
   @Post('enroll')
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(new ValidBodyParamsInterceptor(['class']))
-  enrollUser(@Request() req, @Body('class', ClassExistsPipe) classID: number) {
-    return this.enrollmentsService.enrollUser(req.user.id, classID);
+  enrollUser(@Request() req, @Body('class', ClassExistsPipe) classId: number) {
+    return this.enrollmentsService.enrollUser(req.user.id, classId);
   }
 
   @Delete('unenroll')
@@ -48,15 +48,15 @@ export class EnrollmentsController {
   @UseInterceptors(new ValidQueryParamsInterceptor(['class']))
   unenrollUser(
     @Request() req,
-    @Query('class', ClassExistsPipe) classID: number,
+    @Query('class', ClassExistsPipe) classId: number,
   ) {
-    return this.enrollmentsService.unenrollUser(req.user.id, classID);
+    return this.enrollmentsService.unenrollUser(req.user.id, classId);
   }
 
   @Delete(':id')
   @UseGuards(AdminGuard)
   @UseInterceptors(new ValidQueryParamsInterceptor([]))
-  deleteEnrollment(@Param('id', EnrollmentExistsPipe) enrollmentID: number) {
-    return this.enrollmentsService.deleteEnrollment(enrollmentID);
+  deleteEnrollment(@Param('id', EnrollmentExistsPipe) enrollmentId: number) {
+    return this.enrollmentsService.deleteEnrollment(enrollmentId);
   }
 }

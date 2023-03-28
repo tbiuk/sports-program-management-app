@@ -7,13 +7,13 @@ export class UsersRepository {
     email: string,
     hashedPassword: string,
     emailVerificationToken: string,
-    ageGroupID: number,
+    ageGroupId: number,
   ) {
     return this.knex('users').insert({
       email,
       password: hashedPassword,
       email_verification_token: emailVerificationToken,
-      age_group_id: ageGroupID,
+      age_group_id: ageGroupId,
     });
   }
 
@@ -27,8 +27,8 @@ export class UsersRepository {
       .first();
   }
 
-  async verify(userID: number) {
-    return this.knex('users').where({ user_id: userID }).update({
+  async verify(userId: number) {
+    return this.knex('users').where({ user_id: userId }).update({
       verified: true,
       email_verification_token: null,
     });

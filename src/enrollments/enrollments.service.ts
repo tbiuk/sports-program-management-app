@@ -9,17 +9,17 @@ export class EnrollmentsService {
     return this.enrollmentsRepository.getAllEnrollments();
   }
 
-  getEnrollmentById(enrollmentID: number) {
-    return this.enrollmentsRepository.getEnrollmentById(enrollmentID);
+  getEnrollmentById(enrollmentId: number) {
+    return this.enrollmentsRepository.getEnrollmentById(enrollmentId);
   }
 
-  private getEnrollmentsByUserId(userID: number) {
-    return this.enrollmentsRepository.getEnrollmentsByUserId(userID);
+  private getEnrollmentsByUserId(userId: number) {
+    return this.enrollmentsRepository.getEnrollmentsByUserId(userId);
   }
 
-  private async checkMaxClassEnrollment(userID: number) {
+  private async checkMaxClassEnrollment(userId: number) {
     const MAX_ENROLLMENTS = 2;
-    const userEnrollments = await this.getEnrollmentsByUserId(userID);
+    const userEnrollments = await this.getEnrollmentsByUserId(userId);
 
     if (userEnrollments.length >= MAX_ENROLLMENTS) {
       throw new BadRequestException(
@@ -28,16 +28,16 @@ export class EnrollmentsService {
     }
   }
 
-  async enrollUser(userID: number, classID: number) {
-    await this.checkMaxClassEnrollment(userID);
-    return this.enrollmentsRepository.createEnrollment(userID, classID);
+  async enrollUser(userId: number, classId: number) {
+    await this.checkMaxClassEnrollment(userId);
+    return this.enrollmentsRepository.createEnrollment(userId, classId);
   }
 
-  private async checkUserEnrolled(userID: number, classID: number) {
+  private async checkUserEnrolled(userId: number, classId: number) {
     const userEnrollment =
-      await this.enrollmentsRepository.getEnrollmentByUserAndClassID(
-        userID,
-        classID,
+      await this.enrollmentsRepository.getEnrollmentByUserAndClassId(
+        userId,
+        classId,
       );
 
     if (!userEnrollment) {
@@ -45,22 +45,22 @@ export class EnrollmentsService {
     }
   }
 
-  async unenrollUser(userID: number, classID: number) {
-    await this.checkUserEnrolled(userID, classID);
-    return this.enrollmentsRepository.deleteEnrollmentByUserAndClassID(
-      userID,
-      classID,
+  async unenrollUser(userId: number, classId: number) {
+    await this.checkUserEnrolled(userId, classId);
+    return this.enrollmentsRepository.deleteEnrollmentByUserAndClassId(
+      userId,
+      classId,
     );
   }
 
-  deleteEnrollment(enrollmentID: number) {
-    return this.enrollmentsRepository.deleteEnrollmentByID(enrollmentID);
+  deleteEnrollment(enrollmentId: number) {
+    return this.enrollmentsRepository.deleteEnrollmentById(enrollmentId);
   }
 
-  getEnrollmentByUserAndClassID(userID: number, classID: number) {
-    return this.enrollmentsRepository.getEnrollmentByUserAndClassID(
-      userID,
-      classID,
+  getEnrollmentByUserAndClassId(userId: number, classId: number) {
+    return this.enrollmentsRepository.getEnrollmentByUserAndClassId(
+      userId,
+      classId,
     );
   }
 }

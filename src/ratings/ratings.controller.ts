@@ -34,18 +34,18 @@ export class RatingsController {
   @UseInterceptors(new ValidQueryParamsInterceptor(['sport', 'class']))
   getRatings(
     @Query('sport', SportExistsOrUndefinedPipe) sportName: string,
-    @Query('class', ClassExistsOrUndefinedPipe) classID: number,
+    @Query('class', ClassExistsOrUndefinedPipe) classId: number,
   ) {
     if (sportName) return this.ratingsService.getRatingForSport(sportName);
-    if (classID) return this.ratingsService.getRatingForClass(classID);
+    if (classId) return this.ratingsService.getRatingForClass(classId);
     return this.ratingsService.getAllRatings();
   }
 
   @Get(':id')
   @UseGuards(AdminGuard)
   @UseInterceptors(new ValidQueryParamsInterceptor([]))
-  getRatingById(@Param('id') id: number) {
-    return this.ratingsService.getRatingById(id);
+  getRatingById(@Param('id') ratingId: number) {
+    return this.ratingsService.getRatingById(ratingId);
   }
 
   @Put()
@@ -53,16 +53,16 @@ export class RatingsController {
   @UseInterceptors(new ValidBodyParamsInterceptor(['class', 'rating']))
   createRating(
     @Request() req,
-    @Body('class', ClassExistsPipe) classID: number,
+    @Body('class', ClassExistsPipe) classId: number,
     @Body('rating', RatingValidationPipe) rating: number,
   ) {
-    return this.ratingsService.upsertRating(classID, req.user.id, rating);
+    return this.ratingsService.upsertRating(classId, req.user.id, rating);
   }
 
   @Delete(':id')
   @UseGuards(AdminGuard)
   @UseInterceptors(new ValidQueryParamsInterceptor([]))
-  deleteRating(@Param('id', RatingExistsPipe) id: number) {
-    return this.ratingsService.deleteRating(id);
+  deleteRating(@Param('id', RatingExistsPipe) ratingId: number) {
+    return this.ratingsService.deleteRating(ratingId);
   }
 }
