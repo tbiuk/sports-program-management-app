@@ -17,8 +17,12 @@ export class CommentsService {
     return this.commentsRepository.createComment(classId, userId, comment);
   }
 
-  updateComment(commentId: number, updatedComment: any) {
-    return this.commentsRepository.updateComment(commentId, updatedComment);
+  getCommentsForSport(sportName: string) {
+    return this.commentsRepository.getCommentsForSport(sportName);
+  }
+
+  getCommentsForClass(classId: number) {
+    return this.commentsRepository.getCommentsForClass(classId);
   }
 
   deleteComment(commentId: number) {

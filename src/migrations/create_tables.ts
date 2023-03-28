@@ -2,7 +2,7 @@ exports.up = function (knex) {
   return knex.schema
     .createTable('age_groups', function (table) {
       table.increments('age_group_id').primary();
-      table.string('name').notNullable();
+      table.string('name').unique().notNullable();
     })
     .createTable('users', function (table) {
       table.increments('user_id').primary();
@@ -95,7 +95,6 @@ exports.up = function (knex) {
         .inTable('users')
         .onDelete('SET NULL');
       table.string('comment').notNullable();
-      table.unique(['class_id', 'user_id']);
     })
     .then(function () {
       return knex('age_groups').insert([

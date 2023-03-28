@@ -26,18 +26,20 @@ export class CommentsRepository {
     return this.getAllComments().where('comment_id', commentId).first();
   }
 
+  getCommentsForSport(sportName: string) {
+    return this.getAllComments().where('SPR.name', sportName);
+  }
+
+  getCommentsForClass(classId: number) {
+    return this.getAllComments().where('CLS.class_id', classId);
+  }
+
   createComment(classId: number, userId: number, comment: string) {
     return this.knex('comments').insert({
       class_id: classId,
       user_id: userId,
       comment,
     });
-  }
-
-  updateComment(commentId: number, comment: string) {
-    return this.knex('comments')
-      .update({ comment })
-      .where('comment_id', commentId);
   }
 
   deleteComment(commentId: number) {
