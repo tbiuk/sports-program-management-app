@@ -26,11 +26,11 @@ export class RatingsRepository {
     return this.getAllRatings().where('rating_id', ratingId).first();
   }
 
-  getRatingsForClassById(ratingId: number) {
+  getRatingsForClass(ratingId: number) {
     return this.getAllRatings().where('CLS.class_id', ratingId);
   }
 
-  getRatingsForSportByName(sportName: string) {
+  getRatingsForSport(sportName: string) {
     return this.getAllRatings().where('SPR.name', sportName);
   }
 

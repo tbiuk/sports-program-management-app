@@ -28,7 +28,7 @@ export class RatingsService {
 
   async getRatingForSport(sportName: string) {
     const ratings = (
-      await this.ratingsRepository.getRatingsForSportByName(sportName)
+      await this.ratingsRepository.getRatingsForSport(sportName)
     ).map((el) => el.rating);
 
     return {
@@ -39,7 +39,7 @@ export class RatingsService {
 
   async getRatingForClass(classId: number) {
     const ratings = (
-      await this.ratingsRepository.getRatingsForClassById(classId)
+      await this.ratingsRepository.getRatingsForClass(classId)
     ).map((el) => el.rating);
 
     return {
@@ -48,21 +48,22 @@ export class RatingsService {
     };
   }
 
-  private userBelongsToClass(userId: number, classId: number) {
-    const res = this.enrollmentsService.getEnrollmentByUserAndClassId(
-      classId,
-      userId,
-    );
-    return res;
-  }
+  private async checkCanUpdateRating(userId: number, classId: number) {
+    const belongsToClass =
+      await this.enrollmentsService.getEnrollmentByUserAndClassId(
+        classId,
+        userId,
+      );
 
-  async upsertRating(classId: number, userId: number, rating: number) {
-    if (!(await this.userBelongsToClass(userId, classId))) {
+    if (!belongsToClass) {
       throw new BadRequestException(
         'User does not belong to the specified class',
       );
     }
+  }
 
+  async upsertRating(classId: number, userId: number, rating: number) {
+    await this.checkCanUpdateRating(userId, classId);
     return this.ratingsRepository.upsertRating(classId, userId, rating);
   }
 

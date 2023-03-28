@@ -44,7 +44,7 @@ export class RatingsController {
   @Get(':id')
   @UseGuards(AdminGuard)
   @UseInterceptors(new ValidQueryParamsInterceptor([]))
-  getRatingById(@Param('id') ratingId: number) {
+  getRatingById(@Param('id', RatingExistsPipe) ratingId: number) {
     return this.ratingsService.getRatingById(ratingId);
   }
 
