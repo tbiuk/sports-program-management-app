@@ -17,20 +17,50 @@ export class UsersRepository {
     });
   }
 
-  async findByEmail(email: string) {
-    return this.knex('users').where({ email }).first();
+  getAllUsers() {
+    return this.knex('users as USR')
+      .select(
+        'USR.user_id as userId',
+        'USR.email',
+        'USR.role',
+        'USR.verified',
+        'AGG.name as ageGroup',
+      )
+      .join('age_groups as AGG', 'AGG.age_group_id', 'USR.age_group_id');
   }
 
-  async findByVerificationToken(token: string) {
-    return this.knex('users')
+  async getUserByEmail(email: string) {
+    return this.getAllUsers().where({ email }).first();
+  }
+
+  getUserById(userId: number) {
+    return this.getAllUsers().where('user_id', userId).first();
+  }
+
+  async getUserByVerificationToken(token: string) {
+    return this.getAllUsers()
       .where({ email_verification_token: token })
       .first();
   }
 
-  async verify(userId: number) {
+  async verifyUser(userId: number) {
     return this.knex('users').where({ user_id: userId }).update({
       verified: true,
       email_verification_token: null,
     });
+  }
+
+  deleteUser(userId: number) {
+    return this.knex('users').where('user_id', userId).delete();
+  }
+
+  async setUserAdmin(userId: number) {
+    return this.knex('users')
+      .update({ role: 'admin' })
+      .where('user_id', userId);
+  }
+
+  async setUserNotAdmin(userId: number) {
+    return this.knex('users').update({ role: 'user' }).where('user_id', userId);
   }
 }

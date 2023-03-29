@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import * as crypto from 'crypto';
 import * as nodemailer from 'nodemailer';
@@ -6,17 +6,13 @@ import { UsersRepository } from './repositories/users.repository';
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly UsersRepository: UsersRepository) {}
+  constructor(private readonly usersRepository: UsersRepository) {}
 
-  async createUser(
-    email: string,
-    password: string,
-    ageGroupId: number,
-  ): Promise<any> {
+  async createUser(email: string, password: string, ageGroupId: number) {
     const hashedPassword = await bcrypt.hash(password, 10);
     const emailVerificationToken = crypto.randomBytes(32).toString('hex');
 
-    await this.UsersRepository.addUser(
+    await this.usersRepository.addUser(
       email,
       hashedPassword,
       emailVerificationToken,
@@ -47,17 +43,17 @@ export class UsersService {
   }
 
   async verifyEmailToken(token: string): Promise<any> {
-    const user = await this.UsersRepository.findByVerificationToken(token);
+    const user = await this.usersRepository.getUserByVerificationToken(token);
 
     if (user) {
-      await this.UsersRepository.verify(user.user_id);
+      await this.usersRepository.verifyUser(user.user_id);
     }
 
     return user;
   }
 
   async validateUser(email: string, password: string): Promise<any> {
-    const user = await this.UsersRepository.findByEmail(email);
+    const user = await this.usersRepository.getUserByEmail(email);
 
     if (user && (await bcrypt.compare(password, user.password))) {
       const { password, ...result } = user;
@@ -66,7 +62,62 @@ export class UsersService {
     return null;
   }
 
-  async findByEmail(email: string) {
-    return this.UsersRepository.findByEmail(email);
+  async getAllUsers() {
+    return this.usersRepository.getAllUsers();
+  }
+
+  async getUserById(userId: number) {
+    return this.usersRepository.getUserById(userId);
+  }
+
+  async getUserByEmail(email: string) {
+    return this.usersRepository.getUserByEmail(email);
+  }
+
+  private async checkCanSetAdmin(userId: number) {
+    const user = await this.usersRepository.getUserById(userId);
+
+    if (user.role === 'admin') {
+      throw new BadRequestException('User is already an admin');
+    }
+  }
+
+  private async checkCanUnsetAdmin(currentUserId: number, userId: number) {
+    const user = await this.usersRepository.getUserById(userId);
+
+    if (user.role !== 'admin') {
+      throw new BadRequestException('User is already not an admin');
+    }
+
+    if (user.id === currentUserId) {
+      throw new BadRequestException('User cannot perform action on themselves');
+    }
+  }
+
+  private async checkCanDeleteUser(currentUserId: number, userId: number) {
+    const user = await this.usersRepository.getUserById(userId);
+
+    if (user.role === 'admin') {
+      throw new BadRequestException('Admin user cannot be deleted');
+    }
+
+    if (user.id === currentUserId) {
+      throw new BadRequestException('User cannot perform action on themselves');
+    }
+  }
+
+  async deleteUser(currentUserId: number, userId: number) {
+    await this.checkCanDeleteUser(currentUserId, userId);
+    return this.usersRepository.deleteUser(userId);
+  }
+
+  async setUserAdmin(userId: number) {
+    await this.checkCanSetAdmin(userId);
+    return this.usersRepository.setUserAdmin(userId);
+  }
+
+  async setUserNotAdmin(currentUserId: number, userId: number) {
+    await this.checkCanUnsetAdmin(currentUserId, userId);
+    return this.usersRepository.setUserNotAdmin(userId);
   }
 }
