@@ -17,19 +17,35 @@ export class EnrollmentsService {
     return this.enrollmentsRepository.getEnrollmentsByUserId(userId);
   }
 
-  private async checkMaxClassEnrollment(userId: number) {
+  private async checkMaxEnrollmentForUser(userId: number) {
     const MAX_ENROLLMENTS = 2;
     const userEnrollments = await this.getEnrollmentsByUserId(userId);
 
     if (userEnrollments.length >= MAX_ENROLLMENTS) {
       throw new BadRequestException(
-        'User cannot be enrolled in more than two sports at the same time',
+        `User cannot be enrolled in more than ${MAX_ENROLLMENTS} classes at the same time`,
+      );
+    }
+  }
+
+  private getEnrollmentsByClassId(classId: number) {
+    return this.enrollmentsRepository.getEnrollmentsByClassId(classId);
+  }
+
+  private async checkMaxEnrollmentForClass(classId: number) {
+    const MAX_ENROLLMENTS = 10;
+    const userEnrollments = await this.getEnrollmentsByClassId(classId);
+
+    if (userEnrollments.length >= MAX_ENROLLMENTS) {
+      throw new BadRequestException(
+        `Class cannot have more than ${MAX_ENROLLMENTS} users enrolled at the same time`,
       );
     }
   }
 
   async enrollUser(userId: number, classId: number) {
-    await this.checkMaxClassEnrollment(userId);
+    await this.checkMaxEnrollmentForUser(userId);
+    await this.checkMaxEnrollmentForClass(classId);
     return this.enrollmentsRepository.createEnrollment(userId, classId);
   }
 

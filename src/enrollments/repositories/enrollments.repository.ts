@@ -34,6 +34,10 @@ export class EnrollmentsRepository {
     return this.getAllEnrollments().where('USR.user_id', userId);
   }
 
+  getEnrollmentsByClassId(classId: number) {
+    return this.getAllEnrollments().where('CLS.class_id', classId);
+  }
+
   createEnrollment(userId: number, classId: number) {
     return this.knex('enrollments').insert({
       user_id: userId,
