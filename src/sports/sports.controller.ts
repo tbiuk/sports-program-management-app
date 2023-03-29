@@ -19,20 +19,20 @@ import { SportsService } from './sports.service';
 
 @Controller('sports')
 export class SportsController {
-  constructor(private readonly SportsService: SportsService) {}
+  constructor(private readonly sportsService: SportsService) {}
 
   @Get()
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(new ValidQueryParamsInterceptor([]))
   getAllSports() {
-    return this.SportsService.getAllSports();
+    return this.sportsService.getAllSports();
   }
 
   @Get(':id')
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(new ValidQueryParamsInterceptor([]))
   getSportById(@Param('id', SportExistsPipe) sportId: number) {
-    return this.SportsService.getSportById(sportId);
+    return this.sportsService.getSportById(sportId);
   }
 
   @Post()
@@ -42,7 +42,7 @@ export class SportsController {
     @Body('name', NotUndefinedPipe) sportName: string,
     @Body('description') sportDescription: string,
   ) {
-    return this.SportsService.createSport(sportName, sportDescription);
+    return this.sportsService.createSport(sportName, sportDescription);
   }
 
   @Put(':id')
@@ -53,13 +53,13 @@ export class SportsController {
     @Body('name') sportName: string,
     @Body('description') sportDescription: string,
   ) {
-    return this.SportsService.updateSport(sportId, sportName, sportDescription);
+    return this.sportsService.updateSport(sportId, sportName, sportDescription);
   }
 
   @Delete(':id')
   @UseGuards(AdminGuard)
   @UseInterceptors(new ValidQueryParamsInterceptor([]))
   deleteSport(@Param('id', SportExistsPipe) sportId: number) {
-    return this.SportsService.deleteSport(sportId);
+    return this.sportsService.deleteSport(sportId);
   }
 }

@@ -1,4 +1,6 @@
 import { Module } from '@nestjs/common';
+import { AgeGroupsModule } from 'src/age-groups/age-groups.module';
+import { SportsModule } from 'src/sports/sports.module';
 import { ClassesController } from './classes.controller';
 import { ClassesService } from './classes.service';
 import { ClassesRepository } from './repositories/classes.repository';
@@ -7,5 +9,6 @@ import { ClassesRepository } from './repositories/classes.repository';
   controllers: [ClassesController],
   providers: [ClassesService, ClassesRepository],
   exports: [ClassesService, ClassesRepository],
+  imports: [SportsModule, AgeGroupsModule],
 })
 export class ClassesModule {}

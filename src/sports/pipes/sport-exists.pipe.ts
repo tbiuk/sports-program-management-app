@@ -8,7 +8,7 @@ export class SportExistsPipe implements PipeTransform {
   async transform(value: number) {
     const sport = await this.sportsService.getSportById(value);
     if (!sport) {
-      throw new BadRequestException(`Sport with name ${value} does not exist`);
+      throw new BadRequestException(`Sport with id ${value} does not exist`);
     }
 
     return value;

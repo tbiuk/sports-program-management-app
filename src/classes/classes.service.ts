@@ -5,14 +5,8 @@ import { ClassesRepository } from './repositories/classes.repository';
 export class ClassesService {
   constructor(private readonly classesRepository: ClassesRepository) {}
 
-  getFilteredClasses(sportNames: string, ageNames: string) {
-    const sportNamesArray = sportNames ? sportNames.split(',') : [];
-    const ageNamesArray = ageNames ? ageNames.split(',') : [];
-
-    return this.classesRepository.getFilteredClasses(
-      sportNamesArray,
-      ageNamesArray,
-    );
+  getFilteredClasses(sportNames: string[], ageGroupNames: string[]) {
+    return this.classesRepository.getFilteredClasses(sportNames, ageGroupNames);
   }
 
   getClassById(classId: number) {
