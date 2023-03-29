@@ -10,6 +10,7 @@ import { ClassesModule } from './classes/classes.module';
 import { EnrollmentsModule } from './enrollments/enrollments.module';
 import { CommentsModule } from './comments/comments.module';
 import { RatingsModule } from './ratings/ratings.module';
+import { AgeGroupsModule } from './age-groups/age-groups.module';
 const knexConfig = require('../knexfile');
 
 @Module({
@@ -25,6 +26,7 @@ const knexConfig = require('../knexfile');
     EnrollmentsModule,
     CommentsModule,
     RatingsModule,
+    AgeGroupsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
