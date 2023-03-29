@@ -54,7 +54,7 @@ export class CommentsController {
   @UseInterceptors(new ValidBodyParamsInterceptor(['class', 'comment']))
   createComment(
     @Request() req,
-    @Body('class', ClassExistsPipe) classId: number,
+    @Body('class', NotUndefinedPipe, ClassExistsPipe) classId: number,
     @Body('comment', NotUndefinedPipe) comment: string,
   ) {
     return this.commentsService.createComment(classId, req.user.id, comment);

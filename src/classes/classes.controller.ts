@@ -48,10 +48,18 @@ export class ClassesController {
 
   @Post()
   @UseGuards(AdminGuard)
-  @UseInterceptors(new ValidBodyParamsInterceptor(['name', 'description']))
+  @UseInterceptors(
+    new ValidBodyParamsInterceptor([
+      'sportId',
+      'ageGroupId',
+      'duration',
+      'schedule',
+    ]),
+  )
   createClass(
-    @Body('sportId', SportExistsPipe) sportId: number,
-    @Body('ageGroupId', AgeGroupExistsPipe) ageGroupId: number,
+    @Body('sportId', NotUndefinedPipe, SportExistsPipe) sportId: number,
+    @Body('ageGroupId', NotUndefinedPipe, AgeGroupExistsPipe)
+    ageGroupId: number,
     @Body('duration', NotUndefinedPipe) duration: string,
     @Body('schedule', NotUndefinedPipe) schedule: string,
   ) {

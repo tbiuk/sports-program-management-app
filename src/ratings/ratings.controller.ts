@@ -21,6 +21,7 @@ import { ValidQueryParamsInterceptor } from 'src/common/interceptors/valid-query
 import { ValidBodyParamsInterceptor } from 'src/common/interceptors/valid-body-params.interceptor';
 import { RatingExistsPipe } from './pipes/rating-exists.pipe';
 import { ClassExistsPipe } from 'src/classes/pipes/class-exists.pipe';
+import { NotUndefinedPipe } from 'src/common/pipes/not-undefined.pipe';
 
 @Controller('ratings')
 export class RatingsController {
@@ -53,7 +54,7 @@ export class RatingsController {
   @UseInterceptors(new ValidBodyParamsInterceptor(['class', 'rating']))
   createRating(
     @Request() req,
-    @Body('class', ClassExistsPipe) classId: number,
+    @Body('class', NotUndefinedPipe, ClassExistsPipe) classId: number,
     @Body('rating', RatingValidationPipe) rating: number,
   ) {
     return this.ratingsService.upsertRating(classId, req.user.id, rating);

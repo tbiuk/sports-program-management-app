@@ -4,7 +4,9 @@ import { BadRequestException, Injectable, PipeTransform } from '@nestjs/common';
 export class RatingValidationPipe implements PipeTransform {
   transform(value: any) {
     if (typeof value === 'undefined') {
-      throw new BadRequestException('Rating parameter missing');
+      throw new BadRequestException(
+        'The rating parameter must not be undefined',
+      );
     }
 
     const rating = parseInt(value);

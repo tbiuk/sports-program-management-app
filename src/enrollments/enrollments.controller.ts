@@ -15,6 +15,7 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { ClassExistsPipe } from 'src/classes/pipes/class-exists.pipe';
 import { ValidBodyParamsInterceptor } from 'src/common/interceptors/valid-body-params.interceptor';
 import { ValidQueryParamsInterceptor } from 'src/common/interceptors/valid-query-params.interceptor';
+import { NotUndefinedPipe } from 'src/common/pipes/not-undefined.pipe';
 import { EnrollmentsService } from './enrollments.service';
 import { EnrollmentExistsPipe } from './pipes/enrollment-exists.pipe';
 
@@ -39,7 +40,10 @@ export class EnrollmentsController {
   @Post('enroll')
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(new ValidBodyParamsInterceptor(['class']))
-  enrollUser(@Request() req, @Body('class', ClassExistsPipe) classId: number) {
+  enrollUser(
+    @Request() req,
+    @Body('class', NotUndefinedPipe, ClassExistsPipe) classId: number,
+  ) {
     return this.enrollmentsService.enrollUser(req.user.id, classId);
   }
 
@@ -48,7 +52,7 @@ export class EnrollmentsController {
   @UseInterceptors(new ValidQueryParamsInterceptor(['class']))
   unenrollUser(
     @Request() req,
-    @Query('class', ClassExistsPipe) classId: number,
+    @Query('class', NotUndefinedPipe, ClassExistsPipe) classId: number,
   ) {
     return this.enrollmentsService.unenrollUser(req.user.id, classId);
   }

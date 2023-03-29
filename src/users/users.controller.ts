@@ -13,7 +13,11 @@ import {
 } from '@nestjs/common';
 import { AgeGroupExistsPipe } from 'src/age-groups/pipes/age-group-exists.pipe';
 import { AdminGuard } from 'src/auth/admin.guard';
+import { ValidBodyParamsInterceptor } from 'src/common/interceptors/valid-body-params.interceptor';
 import { ValidQueryParamsInterceptor } from 'src/common/interceptors/valid-query-params.interceptor';
+import { NotUndefinedPipe } from 'src/common/pipes/not-undefined.pipe';
+import { EmailValidationPipe } from './pipes/email-validation.pipe';
+import { PasswordValidationPipe } from './pipes/password-validation.pipe';
 import { UserExistsPipe } from './pipes/user-exists.pipe';
 import { UsersService } from './users.service';
 
@@ -22,10 +26,14 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post('register')
+  @UseInterceptors(
+    new ValidBodyParamsInterceptor(['email', 'password', 'ageGroupId']),
+  )
   async register(
-    @Body('email') email: string,
-    @Body('password') password: string,
-    @Body('ageGroupId', AgeGroupExistsPipe) ageGroupId: number,
+    @Body('email', EmailValidationPipe) email: string,
+    @Body('password', PasswordValidationPipe) password: string,
+    @Body('ageGroupId', NotUndefinedPipe, AgeGroupExistsPipe)
+    ageGroupId: number,
   ) {
     const emailVerificationToken = await this.usersService.createUser(
       email,
