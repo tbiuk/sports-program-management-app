@@ -33,6 +33,10 @@ export class UsersRepository {
     return this.getAllUsers().where({ email }).first();
   }
 
+  async getUserForValidationByEmail(email: string) {
+    return this.getAllUsers().select('USR.password').where({ email }).first();
+  }
+
   getUserById(userId: number) {
     return this.getAllUsers().where('user_id', userId).first();
   }

@@ -74,6 +74,10 @@ export class UsersService {
     return this.usersRepository.getUserByEmail(email);
   }
 
+  async getUserForValidationByEmail(email: string) {
+    return this.usersRepository.getUserForValidationByEmail(email);
+  }
+
   private async checkCanSetAdmin(userId: number) {
     const user = await this.usersRepository.getUserById(userId);
 

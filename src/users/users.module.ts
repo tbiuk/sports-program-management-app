@@ -2,9 +2,10 @@ import { Module } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
 import { UsersRepository } from './repositories/users.repository';
+import { AgeGroupsModule } from 'src/age-groups/age-groups.module';
 
 @Module({
-  imports: [],
+  imports: [AgeGroupsModule],
   providers: [UsersService, UsersRepository],
   exports: [UsersService],
   controllers: [UsersController],
