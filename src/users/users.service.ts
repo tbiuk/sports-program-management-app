@@ -8,7 +8,17 @@ import { UsersRepository } from './repositories/users.repository';
 export class UsersService {
   constructor(private readonly usersRepository: UsersRepository) {}
 
+  private async checkEmailUsed(email: string) {
+    const user = await this.usersRepository.getUserByEmail(email);
+
+    if (user) {
+      throw new BadRequestException('Email already registered');
+    }
+  }
+
   async createUser(email: string, password: string, ageGroupId: number) {
+    await this.checkEmailUsed(email);
+
     const hashedPassword = await bcrypt.hash(password, 10);
     const emailVerificationToken = crypto.randomBytes(32).toString('hex');
 
