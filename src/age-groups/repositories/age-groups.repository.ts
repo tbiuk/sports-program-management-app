@@ -16,7 +16,7 @@ export class AgeGroupsRepository {
   }
 
   createAgeGroup(ageGroupName: string) {
-    return this.knex('age_groups').insert('name', ageGroupName);
+    return this.knex('age_groups').insert({ name: ageGroupName });
   }
 
   deleteAgeGroup(ageGroupId: number) {

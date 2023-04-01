@@ -13,6 +13,7 @@ import {
 import { AdminGuard } from 'src/auth/admin.guard';
 import { ValidBodyParamsInterceptor } from 'src/common/interceptors/valid-body-params.interceptor';
 import { ValidQueryParamsInterceptor } from 'src/common/interceptors/valid-query-params.interceptor';
+import { NotUndefinedPipe } from 'src/common/pipes/not-undefined.pipe';
 import { AgeGroupsService } from './age-groups.service';
 import { AgeGroupExistsPipe } from './pipes/age-group-exists.pipe';
 
@@ -37,7 +38,7 @@ export class AgeGroupsController {
   @Post()
   @UseGuards(AdminGuard)
   @UseInterceptors(new ValidBodyParamsInterceptor(['name']))
-  createAgeGroup(@Body('name') ageGroupName: string) {
+  createAgeGroup(@Body('name', NotUndefinedPipe) ageGroupName: string) {
     return this.ageGroupsService.createAgeGroup(ageGroupName);
   }
 

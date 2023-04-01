@@ -17,7 +17,7 @@ export class AgeGroupsService {
     const existingAgeGroup = await this.ageGroupsRepository.getAgeGroupByName(
       ageGroupName,
     );
-    await this.checkNameUnique(ageGroupName);
+
     if (existingAgeGroup) {
       throw new BadRequestException(
         `Age group with name ${ageGroupName} already exists`,
