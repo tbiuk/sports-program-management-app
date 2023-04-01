@@ -24,14 +24,14 @@ export class EnrollmentsController {
   constructor(private readonly enrollmentsService: EnrollmentsService) {}
 
   @Get()
-  @UseGuards(AdminGuard)
+  @UseGuards(JwtAuthGuard)
   @UseInterceptors(new ValidQueryParamsInterceptor([]))
   getAllEnrollments() {
     return this.enrollmentsService.getAllEnrollments();
   }
 
   @Get(':id')
-  @UseGuards(AdminGuard)
+  @UseGuards(JwtAuthGuard)
   @UseInterceptors(new ValidQueryParamsInterceptor([]))
   getEnrollmentById(@Param('id', EnrollmentExistsPipe) enrollmentId: number) {
     return this.enrollmentsService.getEnrollmentById(enrollmentId);
