@@ -73,7 +73,14 @@ export class ClassesController {
 
   @Put(':id')
   @UseGuards(AdminGuard)
-  @UseInterceptors(new ValidBodyParamsInterceptor(['name', 'description']))
+  @UseInterceptors(
+    new ValidBodyParamsInterceptor([
+      'sportId',
+      'ageGroupId',
+      'duration',
+      'schedule',
+    ]),
+  )
   updateClass(
     @Param('id', ClassExistsPipe) classId: number,
     @Body('sportId', NotUndefinedPipe, SportExistsPipe) sportId: number,

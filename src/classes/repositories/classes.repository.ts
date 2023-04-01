@@ -9,6 +9,7 @@ export class ClassesRepository {
         'SPR.sport_id as sportId',
         'CLS.class_id as classId',
         'AGG.name as ageGroup',
+        'AGG.age_group_id as ageGroupId',
         'CLS.duration as classDuration',
         'CLS.schedule as classSchedule',
         'SPR.name as sportName',
@@ -69,5 +70,9 @@ export class ClassesRepository {
 
   deleteClass(classId: number) {
     return this.knex('classes').where('class_id', classId).delete();
+  }
+
+  getClassEnrollments(classId: number) {
+    return this.knex('enrollments').where('class_id', classId);
   }
 }
