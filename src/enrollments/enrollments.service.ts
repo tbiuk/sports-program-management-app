@@ -58,14 +58,27 @@ export class EnrollmentsService {
     }
   }
 
+  private async checkUserEnrolled(userId: number, classId: number) {
+    const userEnrollment =
+      await this.enrollmentsRepository.getEnrollmentByUserAndClassId(
+        userId,
+        classId,
+      );
+
+    if (userEnrollment) {
+      throw new BadRequestException('User already enrolled in specified class');
+    }
+  }
+
   async enrollUser(userId: number, classId: number) {
     await this.checkAgeGroup(userId, classId);
+    await this.checkUserEnrolled(userId, classId);
     await this.checkMaxEnrollmentForUser(userId);
     await this.checkMaxEnrollmentForClass(classId);
     return this.enrollmentsRepository.createEnrollment(userId, classId);
   }
 
-  private async checkUserEnrolled(userId: number, classId: number) {
+  private async checkUserNotEnrolled(userId: number, classId: number) {
     const userEnrollment =
       await this.enrollmentsRepository.getEnrollmentByUserAndClassId(
         userId,
@@ -78,7 +91,7 @@ export class EnrollmentsService {
   }
 
   async unenrollUser(userId: number, classId: number) {
-    await this.checkUserEnrolled(userId, classId);
+    await this.checkUserNotEnrolled(userId, classId);
     return this.enrollmentsRepository.deleteEnrollmentByUserAndClassId(
       userId,
       classId,
