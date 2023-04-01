@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    container_name: sports-program-management-app
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+    ports:
+      - '${BACKEND_PORT}:${BACKEND_PORT}'
+    depends_on:
+      - db
+
+  migrate:
+    build: .
+    command: sh -c 'npx knex migrate:latest'
+    volumes:
+      - .:/usr/src/app
+    depends_on:
+      - db
+      - app
+    env_file:
+      - .env
+
+  db:
+    image: mysql:8.0
+    container_name: mysql_db
+    env_file:
+      - .env
+    volumes:
+      - db_data:/var/lib/mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+
+volumes:
+  db_data:
