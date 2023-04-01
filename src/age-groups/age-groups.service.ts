@@ -30,7 +30,30 @@ export class AgeGroupsService {
     return this.ageGroupsRepository.createAgeGroup(ageGroupName);
   }
 
-  deleteAgeGroup(ageGroupId: number) {
+  private async checkCanDeleteAgeGroup(ageGroupId: number) {
+    const ageGroupUsers = await this.ageGroupsRepository.getAgeGroupUsers(
+      ageGroupId,
+    );
+
+    if (ageGroupUsers.length) {
+      throw new BadRequestException(
+        `Cannot delete age group asociated with one or more users`,
+      );
+    }
+
+    const ageGroupClasses = await this.ageGroupsRepository.getAgeGroupClasses(
+      ageGroupId,
+    );
+
+    if (ageGroupClasses.length) {
+      throw new BadRequestException(
+        `Cannot delete age group asociated with one or more classes`,
+      );
+    }
+  }
+
+  async deleteAgeGroup(ageGroupId: number) {
+    await this.checkCanDeleteAgeGroup(ageGroupId);
     return this.ageGroupsRepository.deleteAgeGroup(ageGroupId);
   }
 
