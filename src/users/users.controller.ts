@@ -42,7 +42,7 @@ export class UsersController {
     );
     this.usersService.sendVerificationEmail(email, emailVerificationToken);
 
-    return { message: 'User registered.' };
+    return { message: 'User registered' };
   }
 
   @Get('verify-email')
@@ -50,10 +50,10 @@ export class UsersController {
     const user = await this.usersService.verifyEmailToken(token);
 
     if (!user) {
-      return { message: 'Email verification failed.' };
+      return { message: 'Email verification failed' };
     }
 
-    return { message: 'Email verified successfully.' };
+    return { message: 'Email verified successfully' };
   }
 
   @Get()
@@ -73,21 +73,30 @@ export class UsersController {
   @Put('unsetadmin/:id')
   @UseGuards(AdminGuard)
   @UseInterceptors(new ValidQueryParamsInterceptor([]))
-  setUserNotAdmin(@Request() req, @Param('id', UserExistsPipe) userId: number) {
-    return this.usersService.setUserNotAdmin(req.user.id, userId);
+  async setUserNotAdmin(
+    @Request() req,
+    @Param('id', UserExistsPipe) userId: number,
+  ) {
+    await this.usersService.setUserNotAdmin(req.user.id, userId);
+    return { message: 'Admin privileges revoked' };
   }
 
   @Put('setadmin/:id')
   @UseGuards(AdminGuard)
   @UseInterceptors(new ValidQueryParamsInterceptor([]))
-  setUserAdmin(@Param('id', UserExistsPipe) userId: number) {
-    return this.usersService.setUserAdmin(userId);
+  async setUserAdmin(@Param('id', UserExistsPipe) userId: number) {
+    await this.usersService.setUserAdmin(userId);
+    return { message: 'Admin privileges granted' };
   }
 
   @Delete(':id')
   @UseGuards(AdminGuard)
   @UseInterceptors(new ValidQueryParamsInterceptor([]))
-  deleteUser(@Request() req, @Param('id', UserExistsPipe) userId: number) {
-    return this.usersService.deleteUser(req.user.id, userId);
+  async deleteUser(
+    @Request() req,
+    @Param('id', UserExistsPipe) userId: number,
+  ) {
+    await this.usersService.deleteUser(req.user.id, userId);
+    return { message: 'User deleted successfully' };
   }
 }

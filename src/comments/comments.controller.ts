@@ -52,18 +52,20 @@ export class CommentsController {
   @Post()
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(new ValidBodyParamsInterceptor(['class', 'comment']))
-  createComment(
+  async createComment(
     @Request() req,
     @Body('class', NotUndefinedPipe, ClassExistsPipe) classId: number,
     @Body('comment', NotUndefinedPipe) comment: string,
   ) {
-    return this.commentsService.createComment(classId, req.user.id, comment);
+    await this.commentsService.createComment(classId, req.user.id, comment);
+    return { message: 'Comment created successfully' };
   }
 
   @Delete(':id')
   @UseGuards(AdminGuard)
   @UseInterceptors(new ValidQueryParamsInterceptor([]))
-  deleteComment(@Param('id', CommentExistsPipe) commentId: number) {
-    return this.commentsService.deleteComment(commentId);
+  async deleteComment(@Param('id', CommentExistsPipe) commentId: number) {
+    await this.commentsService.deleteComment(commentId);
+    return { message: 'Comment deleted successfully' };
   }
 }

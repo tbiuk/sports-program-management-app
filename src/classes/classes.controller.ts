@@ -56,19 +56,20 @@ export class ClassesController {
       'schedule',
     ]),
   )
-  createClass(
+  async createClass(
     @Body('sportId', NotUndefinedPipe, SportExistsPipe) sportId: number,
     @Body('ageGroupId', NotUndefinedPipe, AgeGroupExistsPipe)
     ageGroupId: number,
     @Body('duration', NotUndefinedPipe) duration: string,
     @Body('schedule', NotUndefinedPipe) schedule: string,
   ) {
-    return this.classesService.createClass(
+    await this.classesService.createClass(
       sportId,
       ageGroupId,
       duration,
       schedule,
     );
+    return { message: 'Class created successfully' };
   }
 
   @Put(':id')
@@ -81,7 +82,7 @@ export class ClassesController {
       'schedule',
     ]),
   )
-  updateClass(
+  async updateClass(
     @Param('id', ClassExistsPipe) classId: number,
     @Body('sportId', NotUndefinedPipe, SportExistsPipe) sportId: number,
     @Body('ageGroupId', NotUndefinedPipe, AgeGroupExistsPipe)
@@ -89,19 +90,21 @@ export class ClassesController {
     @Body('duration', NotUndefinedPipe) duration: string,
     @Body('schedule', NotUndefinedPipe) schedule: string,
   ) {
-    return this.classesService.updateClass(
+    await this.classesService.updateClass(
       classId,
       sportId,
       ageGroupId,
       duration,
       schedule,
     );
+    return { message: 'Class updated successfully' };
   }
 
   @Delete(':id')
   @UseGuards(AdminGuard)
   @UseInterceptors(new ValidQueryParamsInterceptor([]))
-  deleteClass(@Param('id', ClassExistsPipe) classId: number) {
-    return this.classesService.deleteClass(classId);
+  async deleteClass(@Param('id', ClassExistsPipe) classId: number) {
+    await this.classesService.deleteClass(classId);
+    return { message: 'Class deleted successfully' };
   }
 }

@@ -38,28 +38,31 @@ export class SportsController {
   @Post()
   @UseGuards(AdminGuard)
   @UseInterceptors(new ValidBodyParamsInterceptor(['name', 'description']))
-  createSport(
+  async createSport(
     @Body('name', NotUndefinedPipe) sportName: string,
     @Body('description') sportDescription: string,
   ) {
-    return this.sportsService.createSport(sportName, sportDescription);
+    await this.sportsService.createSport(sportName, sportDescription);
+    return { message: 'Sport created successfully' };
   }
 
   @Put(':id')
   @UseGuards(AdminGuard)
   @UseInterceptors(new ValidBodyParamsInterceptor(['name', 'description']))
-  updateSport(
+  async updateSport(
     @Param('id', SportExistsPipe) sportId: number,
     @Body('name') sportName: string,
     @Body('description') sportDescription: string,
   ) {
-    return this.sportsService.updateSport(sportId, sportName, sportDescription);
+    await this.sportsService.updateSport(sportId, sportName, sportDescription);
+    return { message: 'Sport updated successfully' };
   }
 
   @Delete(':id')
   @UseGuards(AdminGuard)
   @UseInterceptors(new ValidQueryParamsInterceptor([]))
-  deleteSport(@Param('id', SportExistsPipe) sportId: number) {
-    return this.sportsService.deleteSport(sportId);
+  async deleteSport(@Param('id', SportExistsPipe) sportId: number) {
+    await this.sportsService.deleteSport(sportId);
+    return { message: 'Sport deleted successfully' };
   }
 }

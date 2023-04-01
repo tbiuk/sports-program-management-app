@@ -39,14 +39,16 @@ export class AgeGroupsController {
   @Post()
   @UseGuards(AdminGuard)
   @UseInterceptors(new ValidBodyParamsInterceptor(['name']))
-  createAgeGroup(@Body('name', NotUndefinedPipe) ageGroupName: string) {
-    return this.ageGroupsService.createAgeGroup(ageGroupName);
+  async createAgeGroup(@Body('name', NotUndefinedPipe) ageGroupName: string) {
+    await this.ageGroupsService.createAgeGroup(ageGroupName);
+    return { message: 'Age group created successfully' };
   }
 
   @Delete(':id')
   @UseGuards(AdminGuard)
   @UseInterceptors(new ValidQueryParamsInterceptor([]))
-  deleteAgeGroup(@Param('id', AgeGroupExistsPipe) ageGroupId: number) {
-    return this.ageGroupsService.deleteAgeGroup(ageGroupId);
+  async deleteAgeGroup(@Param('id', AgeGroupExistsPipe) ageGroupId: number) {
+    await this.ageGroupsService.deleteAgeGroup(ageGroupId);
+    return { message: 'Age group deleted successfully' };
   }
 }

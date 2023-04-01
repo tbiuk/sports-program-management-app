@@ -52,18 +52,20 @@ export class RatingsController {
   @Put()
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(new ValidBodyParamsInterceptor(['class', 'rating']))
-  createRating(
+  async createRating(
     @Request() req,
     @Body('class', NotUndefinedPipe, ClassExistsPipe) classId: number,
     @Body('rating', RatingValidationPipe) rating: number,
   ) {
-    return this.ratingsService.upsertRating(classId, req.user.id, rating);
+    await this.ratingsService.upsertRating(classId, req.user.id, rating);
+    return { message: 'Class rated successfully' };
   }
 
   @Delete(':id')
   @UseGuards(AdminGuard)
   @UseInterceptors(new ValidQueryParamsInterceptor([]))
-  deleteRating(@Param('id', RatingExistsPipe) ratingId: number) {
-    return this.ratingsService.deleteRating(ratingId);
+  async deleteRating(@Param('id', RatingExistsPipe) ratingId: number) {
+    await this.ratingsService.deleteRating(ratingId);
+    return { message: 'Rating deleted successfully' };
   }
 }

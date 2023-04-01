@@ -40,27 +40,32 @@ export class EnrollmentsController {
   @Post('enroll')
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(new ValidBodyParamsInterceptor(['class']))
-  enrollUser(
+  async enrollUser(
     @Request() req,
     @Body('class', NotUndefinedPipe, ClassExistsPipe) classId: number,
   ) {
-    return this.enrollmentsService.enrollUser(req.user.id, classId);
+    await this.enrollmentsService.enrollUser(req.user.id, classId);
+    return { message: 'User enrolled successfully' };
   }
 
   @Delete('unenroll')
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(new ValidQueryParamsInterceptor(['class']))
-  unenrollUser(
+  async unenrollUser(
     @Request() req,
     @Query('class', NotUndefinedPipe, ClassExistsPipe) classId: number,
   ) {
-    return this.enrollmentsService.unenrollUser(req.user.id, classId);
+    await this.enrollmentsService.unenrollUser(req.user.id, classId);
+    return { message: 'User unenrolled successfully' };
   }
 
   @Delete(':id')
   @UseGuards(AdminGuard)
   @UseInterceptors(new ValidQueryParamsInterceptor([]))
-  deleteEnrollment(@Param('id', EnrollmentExistsPipe) enrollmentId: number) {
-    return this.enrollmentsService.deleteEnrollment(enrollmentId);
+  async deleteEnrollment(
+    @Param('id', EnrollmentExistsPipe) enrollmentId: number,
+  ) {
+    await this.enrollmentsService.deleteEnrollment(enrollmentId);
+    return { message: 'Enrollment deleted successfully' };
   }
 }
