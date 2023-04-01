@@ -1,9 +1,10 @@
 import { ExecutionContext, Injectable } from '@nestjs/common';
+import { UsersRepository } from 'src/users/repositories/users.repository';
 import { JwtAuthGuard } from './jwt-auth.guard';
 
 @Injectable()
 export class AdminGuard extends JwtAuthGuard {
-  constructor() {
+  constructor(private readonly usersRepository: UsersRepository) {
     super();
   }
 
@@ -14,7 +15,7 @@ export class AdminGuard extends JwtAuthGuard {
     }
 
     const request = context.switchToHttp().getRequest();
-    const user = request.user;
+    const user = await this.usersRepository.getUserById(request.user.id);
 
     return user && user.role === 'admin';
   }
