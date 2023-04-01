@@ -70,7 +70,18 @@ export class ClassesService {
     );
   }
 
-  deleteClass(classId: number) {
+  private async checkCanDeleteClass(classId: number) {
+    const classEnrollments = await this.classesRepository.getClassEnrollments(
+      classId,
+    );
+
+    if (classEnrollments.length) {
+      throw new BadRequestException(`Cannot delete class with enrolled users`);
+    }
+  }
+
+  async deleteClass(classId: number) {
+    await this.checkCanDeleteClass(classId);
     return this.classesRepository.deleteClass(classId);
   }
 }
