@@ -38,6 +38,10 @@ export class SportsRepository {
     return query;
   }
 
+  getSportClasses(sportId: number) {
+    return this.knex('class').where('sport_id', sportId);
+  }
+
   deleteSport(sportId: number) {
     return this.knex('sports').where('sport_id', sportId).delete();
   }

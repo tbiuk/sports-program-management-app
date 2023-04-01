@@ -47,7 +47,16 @@ export class SportsService {
     );
   }
 
+  private async checkCanDeleteSport(sportId: number) {
+    const sportClasses = await this.sportsRepository.getSportClasses(sportId);
+
+    if (sportClasses.length) {
+      throw new BadRequestException(`Cannot delete sport with active classes`);
+    }
+  }
+
   async deleteSport(sportId: number) {
+    await this.checkCanDeleteSport(sportId);
     return this.sportsRepository.deleteSport(sportId);
   }
 
