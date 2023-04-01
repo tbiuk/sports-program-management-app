@@ -103,7 +103,7 @@ export class UsersService {
       throw new BadRequestException('User is already not an admin');
     }
 
-    if (user.id === currentUserId) {
+    if (user.userId === currentUserId) {
       throw new BadRequestException('User cannot perform action on themselves');
     }
   }
@@ -115,7 +115,7 @@ export class UsersService {
       throw new BadRequestException('Admin user cannot be deleted');
     }
 
-    if (user.id === currentUserId) {
+    if (user.userId === currentUserId) {
       throw new BadRequestException('User cannot perform action on themselves');
     }
   }
