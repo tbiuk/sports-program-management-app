@@ -3,7 +3,7 @@ import { AgeGroupsModule } from 'src/age-groups/age-groups.module';
 import { SportsModule } from 'src/sports/sports.module';
 import { ClassesController } from './classes.controller';
 import { ClassesService } from './classes.service';
-import { ClassesRepository } from './repositories/classes.repository';
+import { ClassesRepository } from './classes.repository';
 
 @Module({
   controllers: [ClassesController],

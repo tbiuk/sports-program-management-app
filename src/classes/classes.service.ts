@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { ClassesRepository } from './repositories/classes.repository';
+import { ClassesRepository } from './classes.repository';
 
 @Injectable()
 export class ClassesService {

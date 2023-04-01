@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { AgeGroupsService } from './age-groups.service';
-import { AgeGroupsRepository } from './repositories/age-groups.repository';
+import { AgeGroupsRepository } from './age-groups.repository';
 import { AgeGroupsController } from './age-groups.controller';
 
 @Module({

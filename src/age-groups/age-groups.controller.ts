@@ -6,9 +6,7 @@ import {
   Param,
   Body,
   UseGuards,
-  Request,
   UseInterceptors,
-  Query,
 } from '@nestjs/common';
 import { AdminGuard } from 'src/auth/admin.guard';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';

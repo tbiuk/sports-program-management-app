@@ -4,7 +4,7 @@ import { EnrollmentsModule } from 'src/enrollments/enrollments.module';
 import { SportsModule } from 'src/sports/sports.module';
 import { RatingsController } from './ratings.controller';
 import { RatingsService } from './ratings.service';
-import { RatingsRepository } from './repositories/ratings.repository';
+import { RatingsRepository } from './ratings.repository';
 
 @Module({
   imports: [ClassesModule, SportsModule, EnrollmentsModule],

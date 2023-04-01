@@ -52,7 +52,7 @@ export class RatingsController {
   @Put()
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(new ValidBodyParamsInterceptor(['class', 'rating']))
-  async createRating(
+  async upsertRating(
     @Request() req,
     @Body('class', NotUndefinedPipe, ClassExistsPipe) classId: number,
     @Body('rating', RatingValidationPipe) rating: number,

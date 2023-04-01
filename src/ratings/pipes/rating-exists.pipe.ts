@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable, PipeTransform } from '@nestjs/common';
-import { RatingsRepository } from '../repositories/ratings.repository';
+import { RatingsRepository } from '../ratings.repository';
 
 @Injectable()
 export class RatingExistsPipe implements PipeTransform {

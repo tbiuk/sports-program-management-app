@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { AgeGroupsRepository } from './repositories/age-groups.repository';
+import { AgeGroupsRepository } from './age-groups.repository';
 
 @Injectable()
 export class AgeGroupsService {

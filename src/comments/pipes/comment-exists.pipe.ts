@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable, PipeTransform } from '@nestjs/common';
-import { CommentsRepository } from '../repositories/comments.repository';
+import { CommentsRepository } from '../comments.repository';
 
 @Injectable()
 export class CommentExistsPipe implements PipeTransform {
