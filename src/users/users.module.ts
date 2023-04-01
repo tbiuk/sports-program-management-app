@@ -7,7 +7,7 @@ import { AgeGroupsModule } from 'src/age-groups/age-groups.module';
 @Module({
   imports: [AgeGroupsModule],
   providers: [UsersService, UsersRepository],
-  exports: [UsersService],
+  exports: [UsersService, UsersRepository],
   controllers: [UsersController],
 })
 export class UsersModule {}

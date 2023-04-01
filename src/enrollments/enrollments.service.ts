@@ -1,9 +1,15 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
+import { ClassesRepository } from 'src/classes/repositories/classes.repository';
+import { UsersRepository } from 'src/users/repositories/users.repository';
 import { EnrollmentsRepository } from './repositories/enrollments.repository';
 
 @Injectable()
 export class EnrollmentsService {
-  constructor(private readonly enrollmentsRepository: EnrollmentsRepository) {}
+  constructor(
+    private readonly enrollmentsRepository: EnrollmentsRepository,
+    private readonly usersRepository: UsersRepository,
+    private readonly classesRepository: ClassesRepository,
+  ) {}
 
   getAllEnrollments() {
     return this.enrollmentsRepository.getAllEnrollments();
@@ -43,7 +49,17 @@ export class EnrollmentsService {
     }
   }
 
+  private async checkAgeGroup(userId: number, classId: number) {
+    const selectedUser = await this.usersRepository.getUserById(userId);
+    const selectedClass = await this.classesRepository.getClassById(classId);
+
+    if (selectedUser.ageGroupId !== selectedClass.ageGroupId) {
+      throw new BadRequestException('User age group does not match class');
+    }
+  }
+
   async enrollUser(userId: number, classId: number) {
+    await this.checkAgeGroup(userId, classId);
     await this.checkMaxEnrollmentForUser(userId);
     await this.checkMaxEnrollmentForClass(classId);
     return this.enrollmentsRepository.createEnrollment(userId, classId);
