@@ -46,7 +46,7 @@ export class UsersService {
     const user = await this.usersRepository.getUserByVerificationToken(token);
 
     if (user) {
-      await this.usersRepository.verifyUser(user.user_id);
+      await this.usersRepository.verifyUser(user.userId);
     }
 
     return user;

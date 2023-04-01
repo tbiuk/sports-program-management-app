@@ -25,6 +25,7 @@ export class UsersRepository {
         'USR.role',
         'USR.verified',
         'AGG.name as ageGroup',
+        'AGG.age_group_id as ageGroupId',
       )
       .join('age_groups as AGG', 'AGG.age_group_id', 'USR.age_group_id');
   }

@@ -87,7 +87,7 @@ export class UsersController {
   @Delete(':id')
   @UseGuards(AdminGuard)
   @UseInterceptors(new ValidQueryParamsInterceptor([]))
-  deleteRating(@Request() req, @Param('id', UserExistsPipe) userId: number) {
+  deleteUser(@Request() req, @Param('id', UserExistsPipe) userId: number) {
     return this.usersService.deleteUser(req.user.id, userId);
   }
 }
