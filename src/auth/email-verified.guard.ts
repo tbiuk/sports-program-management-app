@@ -18,6 +18,10 @@ export class EmailVerifiedGuard extends JwtAuthGuard {
       request.body.username,
     );
 
+    if (!user) {
+      throw new UnauthorizedException('No user found with this email');
+    }
+
     if (user && !user.verified) {
       throw new UnauthorizedException('Email not verified');
     }

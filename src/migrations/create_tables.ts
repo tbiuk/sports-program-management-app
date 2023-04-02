@@ -115,10 +115,19 @@ exports.up = function (knex) {
     .then(function () {
       return knex('users').insert([
         {
-          email: 'admin@mail.com',
+          email: 'admin@example.com',
           password:
-            '$2b$10$BTeRfohRMFDhgLJ2/FyKf.ipqTlCEDRbKvAxg6BXvOUYG0xClBimO',
+            '$2a$10$sFO5n0D1BRn4D14lt.be/uXKNLL4G8ZnYqiMroT5IA/H2xu/D3iAG',
           role: 'admin',
+          age_group_id: 4,
+          verified: true,
+          email_verification_token: null,
+        },
+        {
+          email: 'user@example.com',
+          password:
+            '$2a$10$w8iiRDC/yrR/WIITKOzj4uSzyRVNwmtfVExNk0rejhoe2dpM6IsKu',
+          role: 'user',
           age_group_id: 4,
           verified: true,
           email_verification_token: null,
@@ -174,6 +183,22 @@ exports.up = function (knex) {
         {
           name: 'volleyball',
           description: 'Learn volleyball.',
+        },
+      ]);
+    })
+    .then(function () {
+      return knex('classes').insert([
+        {
+          sport_id: '1',
+          age_group_id: '4',
+          duration: '2 hours',
+          schedule: 'Fridays at 3:00 PM',
+        },
+        {
+          sport_id: '2',
+          age_group_id: '2',
+          duration: '1 hour',
+          schedule: 'Wednesdays at 7:00 PM',
         },
       ]);
     });

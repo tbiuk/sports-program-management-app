@@ -1,73 +1,42 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Sports Program Management App
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Welcome to my sports program management app!
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Features
 
-## Description
+- User registration with email verification and login
+- JWT authentication for secure API access
+- Role-based authorization for sport and user management
+- Fetching of sports class information with filters
+- Sports class enrollment and un-enrollment
+- Anonymous ratings and comments for sports classes
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Technical Details
 
-## Installation
+This app is built using the following technologies:
 
-```bash
-$ npm install
-```
+- NestJS framework with TypeScript
+- MySQL database using Knex.js query builder
+- Docker for containerization
 
-## Running the app
+## Setting Up the Environment
 
-```bash
-# development
-$ npm run start
+Before running the app, you need to set up the environment variables. Create a `.env` file in the root directory of the project and include the necessary variables. Refer to the provided `.env.example` file.
 
-# watch mode
-$ npm run start:dev
+**Note:** For EMAIL_USERNAME and EMAIL_PASSWORD, you need to provide a Gmail username and an app password.
 
-# production mode
-$ npm run start:prod
-```
+## Running the App
 
-## Test
+To run the app locally on your machine, follow these steps:
 
-```bash
-# unit tests
-$ npm run test
+1. Clone the repository
+2. Ensure Docker and Docker Compose are installed on your machine
+3. Navigate to the project directory
+4. Run `docker-compose up` to start the application and database containers
+5. Open your web browser and navigate to the appropriate local address for the app (e.g., `http://localhost:3000`)
 
-# e2e tests
-$ npm run test:e2e
+## API Documentation
 
-# test coverage
-$ npm run test:cov
-```
+The API endpoints are documented using Postman. You can access the documentation at the following link: [Sports Program Management API Documentation](https://www.postman.com/tbiuk/workspace/sports-program-management-api/collection/26660517-6fb7bcf2-b932-43d4-9d03-a702514586d5).
 
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+**Note:** When accessing protected API routes, you need to add the JWT token received upon login to the Authorization header as a Bearer token.
